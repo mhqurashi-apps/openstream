@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy Policy — OpenStream</title>
+<meta name="description" content="How OpenStream handles data: local-first, no account, no analytics, no backend of ours.">
+<style>
+  :root {
+    --ink: #17171a;
+    --muted: #6e6862;
+    --cream: #f6f1e8;
+    --paper: #fffcf7;
+    --line: #e7dccd;
+    --teal: #1e6c60;
+    --lime: #4f7a22;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 40px 20px 72px;
+    background: var(--cream);
+    color: var(--ink);
+    font: 17px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  main { max-width: 720px; margin: 0 auto; }
+  h1 { font-size: 2.1rem; line-height: 1.15; margin: 0 0 4px; letter-spacing: -.02em; }
+  h2 { font-size: 1.2rem; margin: 36px 0 8px; letter-spacing: -.01em; }
+  h3 { font-size: 1rem; margin: 20px 0 4px; }
+  p { margin: 0 0 14px; }
+  .updated { color: var(--muted); font-size: .92rem; margin-bottom: 8px; }
+  .lede {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 18px 20px;
+    margin: 22px 0 8px;
+  }
+  .lede strong { color: var(--teal); }
+  ul { margin: 0 0 14px; padding-left: 22px; }
+  li { margin-bottom: 7px; }
+  code { background: #efe7da; padding: 2px 6px; border-radius: 6px; font-size: .92em; }
+  a { color: var(--teal); }
+  .tail {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-size: .95rem;
+  }
+</style>
+</head>
+<body>
+<main>
+  <h1>Privacy Policy</h1>
+  <p class="updated">OpenStream &middot; last updated 15 November 2026</p>
+
+  <div class="lede">
+    <p><strong>The short version.</strong> OpenStream is local-first. There is no
+    account, no analytics, no advertising and no backend of ours. Your screen
+    travels between your own devices, or through a relay you run yourself.</p>
+  </div>
+
+  <h2>What stays on your device</h2>
+  <ul>
+    <li>Your Ed25519 identity keypair and the paired-computer list.</li>
+    <li>Connection settings, keychain entries and the pairing history.</li>
+    <li>Screen frames, cursor shapes and input events, for the lifetime of a
+        session and not after it.</li>
+  </ul>
+
+  <h2>What leaves your device</h2>
+  <ul>
+    <li><strong>Screen content.</strong> The host encodes video and audio and
+        sends it to the paired client. The client renders it and sends input
+        events back. Nothing is copied to a server of ours, because there is no
+        server of ours.</li>
+    <li><strong>Local network discovery.</strong> The host advertises itself
+        over mDNS so a client on the same network can find it. That
+        announcement stays on your local network.</li>
+    <li><strong>Optional mesh and relay.</strong> If you turn on the embedded
+        WireGuard mesh or point the app at a TURN server, traffic passes
+        through infrastructure you operate &mdash; your own Headscale or NetBird
+        server, your own Coturn, or a third-party relay you chose. Those
+        operators see the connection, not the content.</li>
+  </ul>
+
+  <h2>What we do not do</h2>
+  <ul>
+    <li>No telemetry, no crash reporting, no usage counters, no advertising
+        identifiers.</li>
+    <li>No account, no email address, no sign-in wall.</li>
+    <li>No sale or sharing of data &mdash; there is none to share.</li>
+  </ul>
+
+  <h2>Permissions the app asks for</h2>
+  <ul>
+    <li><strong>Screen recording / screen capture</strong> &mdash; to send the
+        desktop. On macOS this is Screen Recording and Accessibility; on
+        Windows it is the desktop duplication API; on Linux it is the
+        PipeWire or XDG desktop portal.</li>
+    <li><strong>Input injection</strong> &mdash; to move the pointer and type
+        on the host.</li>
+    <li><strong>Camera</strong> &mdash; only to scan the pairing QR code, and
+        only when you tap the scanner yourself.</li>
+  </ul>
+
+  <h2>Children</h2>
+  <p>OpenStream is a general-purpose tool and collects no personal data from
+  anyone, including children.</p>
+
+  <h2>Changes to this policy</h2>
+  <p>Material changes are committed to the project repository with their date,
+  so the history of this page is public.</p>
+
+  <div class="tail">
+    The source of this page is in the OpenStream repository, under
+    <code>pages/privacy.html</code>.
+  </div>
+</main>
+</body>
+</html>

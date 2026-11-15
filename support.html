@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Support — OpenStream</title>
+<meta name="description" content="How to get help with OpenStream: report a bug, request a feature, or build from source.">
+<style>
+  :root {
+    --ink: #17171a;
+    --muted: #6e6862;
+    --cream: #f6f1e8;
+    --paper: #fffcf7;
+    --line: #e7dccd;
+    --teal: #1e6c60;
+    --lime: #4f7a22;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 40px 20px 72px;
+    background: var(--cream);
+    color: var(--ink);
+    font: 17px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  main { max-width: 720px; margin: 0 auto; }
+  h1 { font-size: 2.1rem; line-height: 1.15; margin: 0 0 4px; letter-spacing: -.02em; }
+  h2 { font-size: 1.2rem; margin: 36px 0 8px; letter-spacing: -.01em; }
+  h3 { font-size: 1rem; margin: 20px 0 4px; }
+  p { margin: 0 0 14px; }
+  .updated { color: var(--muted); font-size: .92rem; margin-bottom: 8px; }
+  .lede {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 18px 20px;
+    margin: 22px 0 8px;
+  }
+  .lede strong { color: var(--teal); }
+  .app {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 18px 20px;
+    margin: 18px 0;
+  }
+  .app h3 { margin-top: 0; }
+  .app p:last-child { margin-bottom: 0; }
+  ul { margin: 0 0 14px; padding-left: 22px; }
+  li { margin-bottom: 7px; }
+  code { background: #efe7da; padding: 2px 6px; border-radius: 6px; font-size: .92em; }
+  pre {
+    background: #efe7da;
+    padding: 14px 16px;
+    border-radius: 10px;
+    overflow-x: auto;
+    font-size: .9em;
+    line-height: 1.5;
+  }
+  a { color: var(--teal); }
+  .tail {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-size: .95rem;
+  }
+</style>
+</head>
+<body>
+<main>
+  <h1>Support</h1>
+  <p class="updated">OpenStream &middot; last updated 15 November 2026</p>
+
+  <div class="lede">
+    <p><strong>The short version.</strong> OpenStream is community-run. There is
+    no support desk and no paid tier &mdash; you talk to the people who write
+    the code, and a fix you send upstream becomes part of the project.</p>
+  </div>
+
+  <h2>Something is broken</h2>
+  <p>Open an issue on the project tracker and include:</p>
+  <ul>
+    <li>the host operating system and version, and the client platform;</li>
+    <li>the OpenStream version or commit you are running;</li>
+    <li>what you expected, and what happened instead;</li>
+    <li>the relevant part of the log, with device names removed.</li>
+  </ul>
+  <p>Screen captures of the pairing screen and of the streaming view are often
+  the fastest way to explain a problem.</p>
+
+  <h2>Connection problems</h2>
+  <ul>
+    <li><strong>Both devices on the same network, no connection.</strong> Check
+        that the host is advertising over mDNS and that the client can see
+        <code>_openstream._udp.local.</code>. Some enterprise and guest Wi-Fi
+        networks block mDNS; a wired path or a self-hosted mesh works there.</li>
+    <li><strong>Works locally, fails over the internet.</strong> The host and
+        the client need a path: STUN/TURN, a Headscale or NetBird mesh, or a
+        relay you operate yourself. Check that the relay is reachable.</li>
+    <li><strong>Works, but the picture is soft.</strong> The client sharpens
+        the stream when it is below the display's native resolution; the
+        sharpness control in the session menu trades sharpness against
+        latency.</li>
+  </ul>
+
+  <h2>Build it yourself</h2>
+  <p>The repository is public and every dependency is open source.</p>
+<pre>git clone https://github.com/MHQurashi/openstream.git
+cd openstream
+cargo test --workspace
+cargo clippy --workspace --all-targets -- -D warnings</pre>
+  <p>Cross-platform installers (Windows <code>.msi</code>, macOS
+  <code>.dmg</code>, Linux <code>.flatpak</code> and <code>.deb</code>, Android
+  <code>.apk</code>, unsigned iOS <code>.ipa</code>) are produced by open-source
+  CI on every push. iOS builds are unsigned, so they need to be signed on your
+  own machine with an Apple developer certificate before they will install.</p>
+
+  <h2>Ask a question</h2>
+  <p>Use the discussions area of the project tracker for "how do I" questions.
+  Questions that turn out to be common are usually answered by a page here, so
+  the next person finds it without asking.</p>
+
+  <div class="tail">
+    The source of this page is in the OpenStream repository, under
+    <code>pages/support.html</code>. <a href="index.html">Back to the front
+    page</a> &middot; <a href="privacy.html">Privacy Policy</a>
+  </div>
+</main>
+</body>
+</html>
