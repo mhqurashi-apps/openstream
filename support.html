@@ -111,10 +111,13 @@ cd openstream
 cargo test --workspace
 cargo clippy --workspace --all-targets -- -D warnings</pre>
   <p>Cross-platform installers (Windows <code>.msi</code>, macOS
-  <code>.dmg</code>, Linux <code>.flatpak</code> and <code>.deb</code>, Android
-  <code>.apk</code>, unsigned iOS <code>.ipa</code>) are produced by open-source
-  CI on every push. iOS builds are unsigned, so they need to be signed on your
-  own machine with an Apple developer certificate before they will install.</p>
+  <code>.dmg</code>, Linux <code>.deb</code> for the client and for the host
+  daemon, Android <code>.apk</code>, unsigned iOS <code>.ipa</code>) are
+  produced by open-source CI when a release is dispatched by hand; the Flatpak
+  is not built yet. iOS builds are unsigned, so they need to be signed on your
+  own machine with an Apple developer certificate before they will install.
+  The <a href="downloads.html">downloads page</a> lists the files with their
+  SHA-256 values.</p>
 
   <h2>Ask a question</h2>
   <p>Use the discussions area of the project tracker for "how do I" questions.

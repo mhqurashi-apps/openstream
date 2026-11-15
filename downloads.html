@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Downloads — OpenStream</title>
+<meta name="description" content="OpenStream test builds: what each artifact is, its SHA-256, and how to install it. Free and open-source remote desktop.">
+<style>
+  :root {
+    --ink: #17171a;
+    --muted: #6e6862;
+    --cream: #f6f1e8;
+    --paper: #fffcf7;
+    --line: #e7dccd;
+    --teal: #1e6c60;
+    --lime: #4f7a22;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 40px 20px 72px;
+    background: var(--cream);
+    color: var(--ink);
+    font: 17px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  main { max-width: 720px; margin: 0 auto; }
+  h1 { font-size: 2.1rem; line-height: 1.15; margin: 0 0 4px; letter-spacing: -.02em; }
+  h2 { font-size: 1.2rem; margin: 36px 0 8px; letter-spacing: -.01em; }
+  h3 { font-size: 1rem; margin: 20px 0 4px; }
+  p { margin: 0 0 14px; }
+  .updated { color: var(--muted); font-size: .92rem; margin-bottom: 8px; }
+  .lede {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 18px 20px;
+    margin: 22px 0 8px;
+  }
+  .lede strong { color: var(--teal); }
+  .app {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 18px 20px;
+    margin: 18px 0;
+  }
+  .app h3 { margin-top: 0; }
+  .app p:last-child { margin-bottom: 0; }
+  ul { margin: 0 0 14px; padding-left: 22px; }
+  li { margin-bottom: 7px; }
+  code { background: #efe7da; padding: 2px 6px; border-radius: 6px; font-size: .92em; }
+  pre {
+    background: #efe7da;
+    padding: 14px 16px;
+    border-radius: 10px;
+    overflow-x: auto;
+    font-size: .86em;
+    line-height: 1.5;
+  }
+  a { color: var(--teal); }
+  .status {
+    display: inline-block;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 2px 12px;
+    font-size: .84rem;
+    color: var(--muted);
+    background: var(--paper);
+  }
+  table { width: 100%; border-collapse: collapse; margin: 8px 0 14px; font-size: .9em; }
+  th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { font-weight: 600; color: var(--muted); font-size: .86em; text-transform: uppercase; letter-spacing: .04em; }
+  td.hash { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .78em; word-break: break-all; color: var(--muted); }
+  .tail {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-size: .95rem;
+  }
+</style>
+</head>
+<body>
+<main>
+  <h1>Downloads</h1>
+  <p class="updated">Test builds &middot; <span class="status">not a store release</span></p>
+
+  <div class="lede">
+    <p><strong>Read this first.</strong> The files below are working test
+    builds, not a signed store release. Nothing is code-signed: Android warns
+    about the APK, Windows SmartScreen warns about the MSI, macOS Gatekeeper
+    warns about the disk image, and the iOS build has to be re-signed before a
+    phone will run it. The SHA-256 next to each file is the one the build host
+    measured.</p>
+    <p><strong>Where to get them.</strong> No public binary host is configured
+    yet, so these files are not downloadable from this page today. They sit in
+    the <code>build/packages/</code> directory of the build machine on the
+    project network, next to the <code>MANIFEST.txt</code> they came from, and
+    will be attached to the project's release page once one is published. This
+    page is the published checksum reference: when a file reaches you by any
+    route, compare it against the table below.</p>
+  </div>
+
+  <h2>OpenStream test build</h2>
+  <p>Rendered from <code>MANIFEST.txt</code> by
+  <code>tool/render_downloads_page.sh</code>. The full instructions, including
+  pairing, the Android sideload and troubleshooting, are in
+  <a href="https://github.com/MHQurashi/openstream/blob/master/docs/TESTING.md">docs/TESTING.md</a>.</p>
+
+<!-- artifacts:start -->
+  <p class="updated">OpenStream 0.1.0 &middot; hashes measured by the build host, not typed by hand.</p>
+  <table>
+    <tr><th>File</th><th>Size</th><th>SHA-256</th></tr>
+    <tr><td><code>OpenStream-0.1.0-amd64.deb</code></td><td>22290070 bytes</td><td class="hash">2198af77594793e7c9ef0916ab7a7c457a974dbe19d0e2423d0a083ded4c32be</td></tr>
+    <tr><td><code>OpenStream-0.1.0-android.apk</code></td><td>99792090 bytes</td><td class="hash">1b05290088aeb00e2c04ea757d49f4ef4f19394acda578d3173fe0c07ead2c17</td></tr>
+    <tr><td><code>OpenStream-0.1.0-hostd-amd64.deb</code></td><td>2566202 bytes</td><td class="hash">1e4322f9e9ed33dfd449ff042ca2282ded546a60793aa30d29203161835c420f</td></tr>
+    <tr><td><code>OpenStream-0.1.0-hostd-x64.msi</code></td><td>18829824 bytes</td><td class="hash">8a2f12998b1685cdbeef807cd74c58be2c59c05e1f5bd6173ff2d97307ed2659</td></tr>
+    <tr><td><code>openstream-hostd-linux-x86_64</code></td><td>9189592 bytes</td><td class="hash">a95e1d5dbe0a0e662e9b53c702e0a5e9f1784abd7913b0c82b0d0a07766d0fbc</td></tr>
+    <tr><td><code>openstream-hostd-linux-x86_64.txt</code></td><td>536 bytes</td><td class="hash">b09448d19925323924db8ae189ea5fbb74b588244b8a0a47bb20f5637393d50e</td></tr>
+    <tr><td><code>openstream-hostd-windows-x86_64.exe</code></td><td>16925386 bytes</td><td class="hash">9d94cb18ec77c75cb6bd6ba3ba4b8706ccdc80bb0c4dbb340918f68350aabf5d</td></tr>
+  </table>
+  <p class="updated">Present files are the ones this build produced. Every one of them is
+  <strong>not published yet</strong>: no public binary host is configured, so fetch a
+  file from the build machine and check it against the hash above before installing.</p>
+  <h3>Not in this build</h3>
+  <ul>
+    <li>Windows Flutter client .msi — needs MSVC + the Flutter windows desktop toolchain; .github/workflows/ci.yml package-windows</li>
+    <li>macOS .dmg — needs macOS + Xcode; .github/workflows/ci.yml package-macos</li>
+    <li>iOS .ipa (unsigned) — needs Xcode; .github/workflows/ci.yml package-ios</li>
+    <li>macOS host daemon — no x86_64-apple-darwin target and no macOS SDK on this host; macOS binaries are CI-only</li>
+  </ul>
+<!-- artifacts:end -->
+
+  <h2>Verify a file you downloaded</h2>
+  <p>Put the file in a directory with <code>MANIFEST.txt</code>, open a terminal
+  there, and run:</p>
+<pre>sed -n 's/^\([0-9a-f]\{64\}\)  [0-9]*  /\1  /p' MANIFEST.txt | sha256sum -c -</pre>
+  <p>Every line ends in <code>OK</code> when the files are intact. One
+  <code>FAILED</code> line means that file is corrupt or not the one this build
+  produced &mdash; do not install it. Without the manifest, compare a single
+  file against the table above:</p>
+<pre>sha256sum OpenStream-0.1.0-amd64.deb</pre>
+
+  <h2>Install, in plain language</h2>
+  <div class="app">
+    <h3>Linux desktop client (<code>.deb</code>)</h3>
+    <p><code>sudo apt install ./OpenStream-0.1.0-amd64.deb</code> &mdash; apt
+    resolves the GTK and libsecret dependencies. Start it from your application
+    menu as <em>OpenStream</em>, or run <code>openstream</code>.</p>
+  </div>
+  <div class="app">
+    <h3>Linux host daemon (<code>hostd .deb</code>)</h3>
+    <p><code>sudo apt install ./OpenStream-0.1.0-hostd-amd64.deb</code> &mdash;
+    this pulls in the FFmpeg runtime libraries the daemon links against. Then
+    run <code>openstream-hostd</code>; it prints the pairing QR code and serves
+    its metrics on <code>127.0.0.1:40075</code> and the session server on
+    <code>127.0.0.1:40076</code>.</p>
+  </div>
+  <div class="app">
+    <h3>Android client (<code>.apk</code>)</h3>
+    <p>Copy the APK to the phone and tap it, or
+    <code>adb install OpenStream-0.1.0-android.apk</code>. Android will ask you
+    to allow installing from an unknown source: the build is debug-signed, not
+    Play-signed.</p>
+  </div>
+  <div class="app">
+    <h3>Windows host daemon (<code>.msi</code>)</h3>
+    <p>Double-click it. SmartScreen warns because the installer is unsigned.
+    The Windows <em>client</em> is not in this build: it needs the MSVC
+    toolchain and is produced by CI only.</p>
+  </div>
+
+  <p><a href="index.html">Home</a> &middot;
+  <a href="privacy.html">Privacy Policy</a> &middot;
+  <a href="support.html">Support</a></p>
+
+  <div class="tail">
+    OpenStream is free software released under an open-source licence. These
+    packages are built by open-source tooling from the project's source code;
+    no part of the download path is proprietary.
+  </div>
+</main>
+</body>
+</html>
