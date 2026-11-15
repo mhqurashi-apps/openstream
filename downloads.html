@@ -112,15 +112,15 @@
   <table>
     <tr><th>File</th><th>Size</th><th>SHA-256</th></tr>
     <tr><td><code>OpenStream-0.1.0-android.apk</code></td><td>100070934 bytes</td><td class="hash">136bc9893b558f6eef43a4fa15e89749d5fe86502a5174a60805f312a46943cd</td></tr>
-    <tr><td><code>OpenStream-0.1.0-client-amd64.deb</code></td><td>22344378 bytes</td><td class="hash">a12d69bed0a58d4e8383f52172c878cf176a2f0462841a7802220c60553d129f</td></tr>
-    <tr><td><code>OpenStream-0.1.0-client-x86_64.AppImage</code></td><td>40110584 bytes</td><td class="hash">6ccc500cddfc86a401c11f2e0ab08f03d505e9e8e352ebbd374a49209478f716</td></tr>
-    <tr><td><code>OpenStream-0.1.0-client-x86_64.flatpak</code></td><td>25327752 bytes</td><td class="hash">dd74f448ca2b98fdae148cd52da7dd435271ecd7b39a5aad72fe48375cce142e</td></tr>
-    <tr><td><code>OpenStream-0.1.0-server-amd64.deb</code></td><td>48354230 bytes</td><td class="hash">a2cab855245dd62c6a4385e7e4ca51326c939c97a27c512409462c9278eb48b6</td></tr>
-    <tr><td><code>OpenStream-0.1.0-server-linux-x86_64.tar.xz</code></td><td>45649912 bytes</td><td class="hash">34156f16dd451d0b57510678f795a06ad6c68b7ccef300a2708241cd9f6db40a</td></tr>
-    <tr><td><code>OpenStream-0.1.0-server-x64.msi</code></td><td>18877952 bytes</td><td class="hash">1a5fcc31e7bb4c1d391efe39c18670be38367bfe56f3d07676f1af8d1131b165</td></tr>
-    <tr><td><code>OpenStream-0.1.0-server-x86_64.AppImage</code></td><td>55060984 bytes</td><td class="hash">42bf128ec7f0a548044f1913ec986266654d68d0de8b1d65191e00070a9375bb</td></tr>
-    <tr><td><code>OpenStream-0.1.0-server-x86_64.flatpak</code></td><td>44425608 bytes</td><td class="hash">003e502f6a8244903c881467001afb48622a066daf9ef5f179b41a7bfaead92c</td></tr>
-    <tr><td><code>openstream-server-windows-x86_64.exe</code></td><td>17020817 bytes</td><td class="hash">abb2bf25909db02e0e881df17e1131532c55cde04d4a6b3fc7aeeeae0a10abad</td></tr>
+    <tr><td><code>OpenStream-0.1.0-client-amd64.deb</code></td><td>22343724 bytes</td><td class="hash">5897921d4e43a2271bdf7dc16caae97bd30806d36fc5fe6a56c5e73904d39fa1</td></tr>
+    <tr><td><code>OpenStream-0.1.0-client-x86_64.AppImage</code></td><td>40110584 bytes</td><td class="hash">7e3202d09944c44a1617b5f2a63ceb9c206c5e6d1a8bc1890486ded57f459331</td></tr>
+    <tr><td><code>OpenStream-0.1.0-client-x86_64.flatpak</code></td><td>25323464 bytes</td><td class="hash">c7a4112325c03a942bf87180a5d4f5920d5ebff62ecece280a431420530748a3</td></tr>
+    <tr><td><code>OpenStream-0.1.0-server-amd64.deb</code></td><td>48354924 bytes</td><td class="hash">2d1e76fcefd2b7cbdbc6d3d95393de7f6e51a27fc855043f21ac01cfefd73255</td></tr>
+    <tr><td><code>OpenStream-0.1.0-server-linux-x86_64.tar.xz</code></td><td>45640496 bytes</td><td class="hash">b955f8c830f944fb6dcb17b9818e33ffa0a9fed34caf7f8ec4013cc586591024</td></tr>
+    <tr><td><code>OpenStream-0.1.0-server-x64.msi</code></td><td>18877952 bytes</td><td class="hash">2c33ae42ba91213ff5fbd0089f17b170d9b25331ee9a0d8f36a098eefe832638</td></tr>
+    <tr><td><code>OpenStream-0.1.0-server-x86_64.AppImage</code></td><td>55056888 bytes</td><td class="hash">ea89130a6f9a2e93261714f091c2785396e1690c63d00dfae610a1475db22bac</td></tr>
+    <tr><td><code>OpenStream-0.1.0-server-x86_64.flatpak</code></td><td>44468352 bytes</td><td class="hash">e66f0801393975bdc5480c53e926f6b26cc6369a35d6718b81c047b6fef04dc0</td></tr>
+    <tr><td><code>openstream-server-windows-x86_64.exe</code></td><td>17020817 bytes</td><td class="hash">e5c793adec2a07b0bbb61501f6f5531446af9dec25c9e4ab35e66121921f81af</td></tr>
   </table>
   <p class="updated">Present files are the ones this build produced. Every one of them is
   <strong>not published yet</strong>: no public binary host is configured, so fetch a
@@ -155,10 +155,13 @@
     <p><code>sudo apt install ./OpenStream-0.1.0-server-amd64.deb</code></p>
     <p><strong>Needs nothing else.</strong> The only declared dependency is
     <code>libc6</code>; the FFmpeg libraries are in
-    <code>/usr/lib/openstream-server/lib</code>. Then run
-    <code>openstream-server</code>: it prints the pairing QR and serves metrics
-    on <code>127.0.0.1:40075</code> and the session server on
-    <code>127.0.0.1:40076</code>.</p>
+    <code>/usr/lib/openstream-server/lib</code>. Start it deliberately with
+    <code>sudo systemctl start openstream-server</code> — the package installs
+    the unit but does not enable it. The unit prints the pairing QR in the
+    journal and makes the session server listen on <code>0.0.0.0:40076</code>,
+    so a phone on your network can reach it; the metrics page stays on
+    <code>127.0.0.1:40075</code>. An <code>openstream-server</code> you start by
+    hand keeps the safe loopback default on both ports.</p>
   </div>
 
   <div class="app">
@@ -166,7 +169,10 @@
     <p><code>chmod +x OpenStream-0.1.0-server-x86_64.AppImage &amp;&amp;
     ./OpenStream-0.1.0-server-x86_64.AppImage --help</code></p>
     <p><strong>Needs nothing installed</strong> and no FUSE: on a machine without
-    FUSE, prefix the command with <code>APPIMAGE_EXTRACT_AND_RUN=1</code>.</p>
+    FUSE, prefix the command with <code>APPIMAGE_EXTRACT_AND_RUN=1</code>. Run it
+    with no arguments and the session server listens on <code>0.0.0.0:40076</code>
+    (metrics stays on <code>127.0.0.1:40075</code>); pass
+    <code>--signaling-addr</code> yourself to listen somewhere else.</p>
   </div>
 
   <div class="app">
@@ -175,7 +181,10 @@
     <code>flatpak run dev.openstream.OpenStreamServer --help</code></p>
     <p><strong>No OpenStream package and no FFmpeg needed.</strong> Flatpak
     fetches the shared freedesktop runtime the bundle is built against; that is
-    the only download.</p>
+    the only download. The bundle's launcher passes
+    <code>--signaling-addr 0.0.0.0:40076</code> for you (metrics stays on
+    <code>127.0.0.1:40075</code>); a <code>--signaling-addr</code> you add to
+    <code>flatpak run</code> wins.</p>
   </div>
 
   <div class="app">
