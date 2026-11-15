@@ -111,13 +111,16 @@
   <p class="updated">OpenStream 0.1.0 &middot; hashes measured by the build host, not typed by hand.</p>
   <table>
     <tr><th>File</th><th>Size</th><th>SHA-256</th></tr>
-    <tr><td><code>OpenStream-0.1.0-amd64.deb</code></td><td>22290070 bytes</td><td class="hash">2198af77594793e7c9ef0916ab7a7c457a974dbe19d0e2423d0a083ded4c32be</td></tr>
-    <tr><td><code>OpenStream-0.1.0-android.apk</code></td><td>99792090 bytes</td><td class="hash">1b05290088aeb00e2c04ea757d49f4ef4f19394acda578d3173fe0c07ead2c17</td></tr>
-    <tr><td><code>OpenStream-0.1.0-hostd-amd64.deb</code></td><td>2566202 bytes</td><td class="hash">1e4322f9e9ed33dfd449ff042ca2282ded546a60793aa30d29203161835c420f</td></tr>
-    <tr><td><code>OpenStream-0.1.0-hostd-x64.msi</code></td><td>18829824 bytes</td><td class="hash">8a2f12998b1685cdbeef807cd74c58be2c59c05e1f5bd6173ff2d97307ed2659</td></tr>
-    <tr><td><code>openstream-hostd-linux-x86_64</code></td><td>9189592 bytes</td><td class="hash">a95e1d5dbe0a0e662e9b53c702e0a5e9f1784abd7913b0c82b0d0a07766d0fbc</td></tr>
-    <tr><td><code>openstream-hostd-linux-x86_64.txt</code></td><td>536 bytes</td><td class="hash">b09448d19925323924db8ae189ea5fbb74b588244b8a0a47bb20f5637393d50e</td></tr>
-    <tr><td><code>openstream-hostd-windows-x86_64.exe</code></td><td>16925386 bytes</td><td class="hash">9d94cb18ec77c75cb6bd6ba3ba4b8706ccdc80bb0c4dbb340918f68350aabf5d</td></tr>
+    <tr><td><code>OpenStream-0.1.0-android.apk</code></td><td>99792098 bytes</td><td class="hash">67cec2375ec031e80079a05a2a0651631eb429d25926d1b249ff1d1fa4473e38</td></tr>
+    <tr><td><code>OpenStream-0.1.0-client-amd64.deb</code></td><td>22294950 bytes</td><td class="hash">f10f1c7b70fa03c588566c5cdd3c3dc44a1106998ffc9ebfac20f2efd5f4adae</td></tr>
+    <tr><td><code>OpenStream-0.1.0-client-x86_64.AppImage</code></td><td>40057336 bytes</td><td class="hash">3325840fed20e21ac65f5e00c70aa103e17ee415dace72977e79397740614a21</td></tr>
+    <tr><td><code>OpenStream-0.1.0-client-x86_64.flatpak</code></td><td>25279136 bytes</td><td class="hash">6dc4a8febaf35f7f580e7868bca855157a797016a107a94aeccbd396214e8d88</td></tr>
+    <tr><td><code>OpenStream-0.1.0-server-amd64.deb</code></td><td>48330850 bytes</td><td class="hash">a8d97c6f81b1f9fd7f972f56007fa9bfb37b9f936430b9361da46a5e0cf06911</td></tr>
+    <tr><td><code>OpenStream-0.1.0-server-linux-x86_64.tar.xz</code></td><td>45618504 bytes</td><td class="hash">42b97ea74cc0e63307d6c8320d057dfbccb4c3f21043a7cb8a69a2fb5fc3e8aa</td></tr>
+    <tr><td><code>OpenStream-0.1.0-server-x64.msi</code></td><td>18859008 bytes</td><td class="hash">93dfc0c167e8835075f2349282a14d0020b562cacb5ef9274ea47e4aa10efadf</td></tr>
+    <tr><td><code>OpenStream-0.1.0-server-x86_64.AppImage</code></td><td>55028216 bytes</td><td class="hash">39edc409de9aea14a5c654c7348d6c390579c33fddae04dd2268714e0b72f2e6</td></tr>
+    <tr><td><code>OpenStream-0.1.0-server-x86_64.flatpak</code></td><td>44352992 bytes</td><td class="hash">9a2241ef0b085e425e678782c3501f2d3eb2bc76bebbc219fe824d53d352d616</td></tr>
+    <tr><td><code>openstream-server-windows-x86_64.exe</code></td><td>16965628 bytes</td><td class="hash">2050d462553948ad55dab065cb23f1038fff464bd1a273ec359fd2c4f9d490dc</td></tr>
   </table>
   <p class="updated">Present files are the ones this build produced. Every one of them is
   <strong>not published yet</strong>: no public binary host is configured, so fetch a
@@ -127,7 +130,7 @@
     <li>Windows Flutter client .msi — needs MSVC + the Flutter windows desktop toolchain; .github/workflows/ci.yml package-windows</li>
     <li>macOS .dmg — needs macOS + Xcode; .github/workflows/ci.yml package-macos</li>
     <li>iOS .ipa (unsigned) — needs Xcode; .github/workflows/ci.yml package-ios</li>
-    <li>macOS host daemon — no x86_64-apple-darwin target and no macOS SDK on this host; macOS binaries are CI-only</li>
+    <li>macOS server — no x86_64-apple-darwin target and no macOS SDK on this host; macOS binaries are CI-only</li>
   </ul>
 <!-- artifacts:end -->
 
@@ -139,35 +142,83 @@
   <code>FAILED</code> line means that file is corrupt or not the one this build
   produced &mdash; do not install it. Without the manifest, compare a single
   file against the table above:</p>
-<pre>sha256sum OpenStream-0.1.0-amd64.deb</pre>
+<pre>sha256sum OpenStream-0.1.0-server-amd64.deb</pre>
 
   <h2>Install, in plain language</h2>
+  <p>Two halves, clearly labelled: <strong>OpenStream Server</strong> is the
+  computer you reach, <strong>OpenStream Client</strong> is the screen you look
+  at. Every server file below installs and starts with <strong>no other package
+  needed</strong> — FFmpeg travels inside it.</p>
+
   <div class="app">
-    <h3>Linux desktop client (<code>.deb</code>)</h3>
-    <p><code>sudo apt install ./OpenStream-0.1.0-amd64.deb</code> &mdash; apt
-    resolves the GTK and libsecret dependencies. Start it from your application
-    menu as <em>OpenStream</em>, or run <code>openstream</code>.</p>
-  </div>
-  <div class="app">
-    <h3>Linux host daemon (<code>hostd .deb</code>)</h3>
-    <p><code>sudo apt install ./OpenStream-0.1.0-hostd-amd64.deb</code> &mdash;
-    this pulls in the FFmpeg runtime libraries the daemon links against. Then
-    run <code>openstream-hostd</code>; it prints the pairing QR code and serves
-    its metrics on <code>127.0.0.1:40075</code> and the session server on
+    <h3>OpenStream Server &mdash; Linux (<code>.deb</code>)</h3>
+    <p><code>sudo apt install ./OpenStream-0.1.0-server-amd64.deb</code></p>
+    <p><strong>Needs nothing else.</strong> The only declared dependency is
+    <code>libc6</code>; the FFmpeg libraries are in
+    <code>/usr/lib/openstream-server/lib</code>. Then run
+    <code>openstream-server</code>: it prints the pairing QR and serves metrics
+    on <code>127.0.0.1:40075</code> and the session server on
     <code>127.0.0.1:40076</code>.</p>
   </div>
+
+  <div class="app">
+    <h3>OpenStream Server &mdash; AppImage</h3>
+    <p><code>chmod +x OpenStream-0.1.0-server-x86_64.AppImage &amp;&amp;
+    ./OpenStream-0.1.0-server-x86_64.AppImage --help</code></p>
+    <p><strong>Needs nothing installed</strong> and no FUSE: on a machine without
+    FUSE, prefix the command with <code>APPIMAGE_EXTRACT_AND_RUN=1</code>.</p>
+  </div>
+
+  <div class="app">
+    <h3>OpenStream Server &mdash; Flatpak</h3>
+    <p><code>flatpak install --user ./OpenStream-0.1.0-server-x86_64.flatpak</code><br>
+    <code>flatpak run dev.openstream.OpenStreamServer --help</code></p>
+    <p><strong>No OpenStream package and no FFmpeg needed.</strong> Flatpak
+    fetches the shared freedesktop runtime the bundle is built against; that is
+    the only download.</p>
+  </div>
+
+  <div class="app">
+    <h3>OpenStream Server &mdash; tarball (no package manager)</h3>
+    <p><code>tar -xJf OpenStream-0.1.0-server-linux-x86_64.tar.xz</code><br>
+    <code>./openstream-server/openstream-server --help</code></p>
+    <p><strong>Needs nothing installed.</strong> Keep the <code>lib/</code>
+    directory next to the binary.</p>
+  </div>
+
+  <div class="app">
+    <h3>OpenStream Client &mdash; Linux (<code>.deb</code>)</h3>
+    <p><code>sudo apt install ./OpenStream-0.1.0-client-amd64.deb</code></p>
+    <p>This is the <em>one</em> artifact that still needs apt to install two
+    desktop libraries &mdash; <code>libgtk-3-0t64</code> and
+    <code>libsecret-1-0</code> &mdash; and <code>apt install ./file.deb</code>
+    fetches them for you. Start it as <em>OpenStream Client</em> from the
+    application menu, or run <code>openstream-client</code>.</p>
+  </div>
+
+  <div class="app">
+    <h3>OpenStream Client &mdash; AppImage and Flatpak</h3>
+    <p><code>chmod +x OpenStream-0.1.0-client-x86_64.AppImage &amp;&amp;
+    ./OpenStream-0.1.0-client-x86_64.AppImage</code><br>
+    <code>flatpak install --user ./OpenStream-0.1.0-client-x86_64.flatpak</code></p>
+    <p><strong>Needs nothing else:</strong> the AppImage carries GTK 3, and the
+    Flatpak bundle gets GTK from the freedesktop runtime Flatpak installs for
+    you. Both need a graphical desktop session.</p>
+  </div>
+
   <div class="app">
     <h3>Android client (<code>.apk</code>)</h3>
     <p>Copy the APK to the phone and tap it, or
     <code>adb install OpenStream-0.1.0-android.apk</code>. Android will ask you
     to allow installing from an unknown source: the build is debug-signed, not
-    Play-signed.</p>
+    Play-signed. Nothing else to install.</p>
   </div>
+
   <div class="app">
-    <h3>Windows host daemon (<code>.msi</code>)</h3>
-    <p>Double-click it. SmartScreen warns because the installer is unsigned.
-    The Windows <em>client</em> is not in this build: it needs the MSVC
-    toolchain and is produced by CI only.</p>
+    <h3>OpenStream Server &mdash; Windows (<code>.msi</code>)</h3>
+    <p>Double-click it. SmartScreen warns because the installer is unsigned. The
+    installer brings its own FFmpeg DLLs. The Windows <em>client</em> is not in
+    this build: it needs the MSVC toolchain and is produced by CI only.</p>
   </div>
 
   <p><a href="index.html">Home</a> &middot;
