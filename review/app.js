@@ -211,4 +211,95 @@
       }, 1600);
     });
   }
+  /* ---------------------------------------------------- revoke access */
+  var confirmBox = document.getElementById("confirm-box");
+  var confirmTarget = document.getElementById("confirm-target");
+  var pendingRow = null;
+
+  function openConfirm(row) {
+    pendingRow = row;
+    var meta = row.querySelector(".arow__meta");
+    var name = row.querySelector(".arow__name");
+    confirmTarget.textContent = meta ? meta.textContent : "";
+    var title = confirmBox.querySelector(".confirm__title");
+    var text = confirmBox.querySelector(".confirm__text");
+    var label = name ? name.textContent.replace(/\s*name proposed$/, "") : "this device";
+    title.textContent = "Revoke " + label + "?";
+    text.textContent =
+      "This device can no longer connect to this host. It has to pair again, which means you scan a new code.";
+    confirmBox.setAttribute("data-open", "true");
+    var ok = document.getElementById("confirm-ok");
+    if (ok) ok.focus();
+  }
+
+  function closeConfirm() {
+    confirmBox.setAttribute("data-open", "false");
+    pendingRow = null;
+  }
+
+  document.querySelectorAll("[data-revoke]").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var row = btn.closest("[data-revoke-row]");
+      if (row) openConfirm(row);
+    });
+  });
+
+  var confirmCancel = document.getElementById("confirm-cancel");
+  if (confirmCancel) confirmCancel.addEventListener("click", closeConfirm);
+
+  var confirmOk = document.getElementById("confirm-ok");
+  if (confirmOk) {
+    confirmOk.addEventListener("click", function () {
+      if (!pendingRow) return;
+      var name = pendingRow.querySelector(".arow__name");
+      var sub = pendingRow.querySelector(".arow__sub");
+      var btn = pendingRow.querySelector("[data-revoke]");
+      if (name) name.textContent = name.textContent.replace(/\s*name proposed$/, "");
+      if (sub) sub.textContent = "Revoked just now. It has to pair again to connect.";
+      if (btn) {
+        btn.textContent = "Revoked";
+        btn.setAttribute("data-done", "true");
+        btn.disabled = true;
+      }
+      closeConfirm();
+    });
+  }
+
+  var revokeAll = document.getElementById("revoke-all");
+  if (revokeAll) {
+    revokeAll.addEventListener("click", function () {
+      var rows = document.querySelectorAll("[data-revoke-row]");
+      rows.forEach(function (row) {
+        var btn = row.querySelector("[data-revoke]");
+        var sub = row.querySelector(".arow__sub");
+        if (btn) {
+          btn.textContent = "Revoked";
+          btn.setAttribute("data-done", "true");
+          btn.disabled = true;
+        }
+        if (sub) sub.textContent = "Revoked just now.";
+      });
+      revokeAll.textContent = "Everything revoked";
+      revokeAll.setAttribute("data-done", "true");
+      revokeAll.disabled = true;
+    });
+  }
+
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape" && confirmBox.getAttribute("data-open") === "true") {
+      closeConfirm();
+    }
+  });
+
+  /* ------------------------------------------------ forget a computer */
+  document.querySelectorAll("[data-forget]").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var row = btn.closest(".crow");
+      if (!row) return;
+      row.style.opacity = "0.4";
+      btn.textContent = "Forgotten";
+      btn.disabled = true;
+    });
+  });
+
 })();

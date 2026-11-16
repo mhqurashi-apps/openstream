@@ -30,6 +30,7 @@
     <a href="#system">System</a>
     <a href="#client">Client</a>
     <a href="#server">Server tray</a>
+    <a href="#access">Revocation</a>
     <a href="#server-work">Server work</a>
     <a href="#gate">Gate</a>
     <span class="docnav__spacer"></span>
@@ -286,7 +287,10 @@
                     <span class="status"><span class="status__dot" aria-hidden="true"></span>P2P Mesh</span>
                   </div>
                   <p class="crow__fp">fp 9a4c117e2b60d8f3</p>
-                  <div class="crow__act"><button class="btn btn--quiet btn--sm" type="button">Connect</button></div>
+                  <div class="crow__act crow__foot">
+                    <button class="btn btn--quiet btn--sm" type="button">Connect</button>
+                    <button class="forget" type="button" data-forget>Forget</button>
+                  </div>
                 </div>
                 <div class="crow">
                   <div class="crow__top">
@@ -297,7 +301,10 @@
                     <span class="status status--low"><span class="status__dot" aria-hidden="true"></span>Low-Bandwidth Saver</span>
                   </div>
                   <p class="crow__fp">fp 5d02bb3a71c9e648</p>
-                  <div class="crow__act"><button class="btn btn--quiet btn--sm" type="button">Connect</button></div>
+                  <div class="crow__act crow__foot">
+                    <button class="btn btn--quiet btn--sm" type="button">Connect</button>
+                    <button class="forget" type="button" data-forget>Forget</button>
+                  </div>
                 </div>
               </div>
 
@@ -408,6 +415,7 @@
           <p class="notes__li"><b>One primary action per state.</b> The computer you used last gets the filled button, the others get a quiet one. The screen now has a focal point instead of three equal claims.</p>
           <p class="notes__li"><b>Pairing once.</b> The empty state offers pairing in the body. The header link is the only other entry point, so the call is never made twice on one screen.</p>
           <p class="notes__li"><b>Words instead of pills.</b> "LAN Direct" reads as a status without a capsule, and the dot gives the eye something to land on when scanning a list.</p>
+          <p class="notes__li"><b>A paired computer can be forgotten.</b> The phone keeps the key in its own keychain, so it has to be able to drop it. Today the delete call exists in the keychain but no screen reaches it.</p>
         </div>
         <div>
           <p class="notes__h">Session specifics</p>
@@ -582,9 +590,145 @@
   </section>
 
   <!-- ============================================================ 05 -->
-  <section class="sec" id="server-work">
+  <section class="sec" id="access">
     <div class="sec__head">
       <p class="sec__num">05</p>
+      <div>
+        <h2 class="sec__title">Paired devices and revocation</h2>
+        <p class="sec__note">
+          Pairing is the easy half. The half that matters is taking access back.
+          This is the panel that lists every device the host trusts and every code
+          it has issued, and it is the one surface the daemon cannot build today.
+        </p>
+      </div>
+    </div>
+
+    <div class="sec__body">
+      <div class="stage" style="gap:32px">
+        <div class="win">
+          <div class="win__bar">
+            <span class="win__title">Paired devices</span>
+            <span class="win__title" style="color:var(--muted);font-weight:400">OpenStream</span>
+          </div>
+          <div class="win__body">
+            <div class="win__sect" style="margin-top:12px">
+              <p class="win__label">Trusted devices</p>
+              <div class="arow" data-revoke-row>
+                <div>
+                  <p class="arow__name">Pixel 8 Pro <span class="prop">name proposed</span></p>
+                  <p class="arow__meta">fp 9a4c117e2b60d8f3</p>
+                  <p class="arow__sub">Paired 16 Nov 2026, 14:28</p>
+                </div>
+                <div class="arow__act">
+                  <button class="revoke" type="button" data-revoke>Revoke</button>
+                </div>
+              </div>
+              <div class="arow" data-revoke-row>
+                <div>
+                  <p class="arow__name">iPad Air <span class="prop">name proposed</span></p>
+                  <p class="arow__meta">fp 5d02bb3a71c9e648</p>
+                  <p class="arow__sub">Paired 12 Nov 2026, 09:14</p>
+                </div>
+                <div class="arow__act">
+                  <button class="revoke" type="button" data-revoke>Revoke</button>
+                </div>
+              </div>
+              <div class="arow" data-revoke-row>
+                <div>
+                  <p class="arow__name">MacBook Pro <span class="prop">name proposed</span></p>
+                  <p class="arow__meta">fp 1c9f0b7d3e5a4128</p>
+                  <p class="arow__sub">Paired 2 Nov 2026, 19:02</p>
+                </div>
+                <div class="arow__act">
+                  <button class="revoke" type="button" data-revoke>Revoke</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="win__sect">
+              <p class="win__label">Issued pairing codes</p>
+              <div class="arow" data-revoke-row>
+                <div>
+                  <p class="arow__name">Code from 14:31 <span class="prop">name proposed</span></p>
+                  <p class="arow__meta">actress pelican hand disorder raven fortune</p>
+                  <p class="arow__sub">Expires in 52 minutes. Unused.</p>
+                </div>
+                <div class="arow__act">
+                  <button class="revoke" type="button" data-revoke>Revoke</button>
+                </div>
+              </div>
+              <div class="arow">
+                <div>
+                  <p class="arow__name">Code from 09:12</p>
+                  <p class="arow__meta">raven fortune hand disorder pelican actress</p>
+                  <p class="arow__sub">Used once on 12 Nov 2026. Expired.</p>
+                </div>
+                <div class="arow__act">
+                  <span class="status" style="font-size:11.5px"><span class="status__dot status__dot--dead" aria-hidden="true"></span>Expired</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="win__sect" style="padding-bottom:10px">
+              <p class="win__label">Access</p>
+              <div class="switchrow">
+                <span>
+                  <span class="switchrow__label">Revoke everything and stop sharing</span>
+                  <span class="switchrow__hint">Removes every trusted device and invalidates every live code.</span>
+                </span>
+                <button class="btn btn--danger btn--sm" type="button" id="revoke-all">Revoke all</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="win confirm" id="confirm-box" data-open="false">
+          <div class="win__bar">
+            <span class="win__title">Revoke access</span>
+          </div>
+          <div class="confirm__body">
+            <p class="confirm__title">Revoke Pixel 8 Pro?</p>
+            <p class="confirm__text">This device can no longer connect to this host. It has to pair again, which means you scan a new code.</p>
+            <p class="confirm__list" id="confirm-target">fp 9a4c117e2b60d8f3</p>
+          </div>
+          <div class="confirm__actions">
+            <button class="btn btn--quiet btn--sm" type="button" id="confirm-cancel">Keep access</button>
+            <button class="btn btn--danger btn--sm" type="button" id="confirm-ok">Revoke</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="notes" style="margin-top:40px">
+        <div>
+          <p class="notes__h">Why this is a panel and not a tray row</p>
+          <p class="notes__li"><b>Revocation is rare and deliberate.</b> A user who wants to cut a device off should not have to hunt for it, but it should not sit in the way of the common case either. So the tray carries a count, and this panel opens from it.</p>
+          <p class="notes__li"><b>Every row states what it breaks.</b> Revoking a device is not a soft action. The dialog says the device has to pair again, because that is the actual consequence.</p>
+          <p class="notes__li"><b>Revoke all is separated from the rest.</b> It is the only action that touches everything, so it sits alone at the bottom with its own label.</p>
+        </div>
+        <div>
+          <p class="notes__h">Why codes are listed next to devices</p>
+          <p class="notes__li"><b>They are different things that look alike.</b> A trusted device is a key in the store. An issued code is a secret that has not been used yet. Both grant access, so both belong in one place.</p>
+          <p class="notes__li"><b>An expired code is kept for the record.</b> It shows that the code existed and that it was spent, which is the difference between "expired" and "never issued".</p>
+          <p class="notes__li"><b>Revoking a code stops it being read.</b> It cannot be redeemed later, so a code seen in a photo has a shelf life the user controls.</p>
+        </div>
+      </div>
+
+      <div class="callout" style="margin-top:30px">
+        <b>This panel cannot be built on the daemon as it stands.</b> The trust store
+        holds a <span class="mono">Vec&lt;[u8; 32]&gt;</span> of public keys and
+        offers <span class="mono">pair()</span>. It has no remove, no revoke and no
+        expiry, so a paired key stays trusted for the life of the file. The store
+        also keeps no label and no timestamp, so a device cannot be shown by name or
+        by when it was paired. Both the store format and the daemon need to change
+        before this panel can show a true row.
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ 06 -->
+  <section class="sec" id="server-work">
+    <div class="sec__head">
+      <p class="sec__num">06</p>
       <div>
         <h2 class="sec__title">What the server needs to add</h2>
         <p class="sec__note">
@@ -613,6 +757,18 @@
           <dt>Disconnect</dt>
           <dd>The daemon owns the peer connection and the pipeline, so ending a session from the host is local work. The tray button should be the only path, so the phone cannot hold a stream open against the owner's intent.</dd>
         </div>
+        <div class="spec__row">
+          <dt>Revoke</dt>
+          <dd>The trust store holds a list of public keys and offers a <strong>pair</strong> method. There is no remove, no revoke and no expiry, so a key that is written stays trusted for as long as the file exists. Revocation needs a remove on the store, a rewrite of the file, and a route to reach it from the tray.</dd>
+        </div>
+        <div class="spec__row">
+          <dt>Device records</dt>
+          <dd>The store keeps a bare key and nothing else. There is no name, no paired-at time and no last-seen time, so a list of trusted devices could only ever show a fingerprint. Each record needs those three fields, which means a second version of the store file.</dd>
+        </div>
+        <div class="spec__row">
+          <dt>More than one viewer</dt>
+          <dd>The daemon publishes each new session into a single slot, so the most recent client <strong>replaces</strong> the previous one rather than joining it. A panel listing everyone connected is only honest once the host can hold several sessions at once.</dd>
+        </div>
       </dl>
 
       <div class="callout" style="margin-top:32px">
@@ -623,6 +779,13 @@
         tray app is an implementation of that trait and nothing more. The headless
         recording implementation already used by the tests proves the model works
         without a GUI toolkit.
+      </div>
+
+      <div class="callout" style="margin-top:12px">
+        <b>The two findings that matter most.</b> First, the trust store cannot
+        revoke: it pairs a key and never forgets one. Second, the daemon holds a
+        single session slot, so a second client replaces the first rather than
+        joining it. Both are read from the source, not inferred from the design.
       </div>
 
       <div class="callout" style="margin-top:12px">
@@ -637,10 +800,10 @@
     </div>
   </section>
 
-  <!-- ============================================================ 06 -->
+  <!-- ============================================================ 07 -->
   <section class="sec" id="gate">
     <div class="sec__head">
-      <p class="sec__num">06</p>
+      <p class="sec__num">07</p>
       <div>
         <h2 class="sec__title">Delivery gate</h2>
         <p class="sec__note">Checked against the anti-slop rules before publishing.</p>
@@ -667,12 +830,12 @@
         <div class="gate__row"><span class="gate__id">R-20</span><span class="gate__v">PASS</span><span class="gate__why">One palette, one accent, one type system across both surfaces.</span></div>
         <div class="gate__row"><span class="gate__id">R-21</span><span class="gate__v">PASS</span><span class="gate__why">Both themes built and checked. The toggle works in either direction.</span></div>
         <div class="gate__row"><span class="gate__id">R-24</span><span class="gate__v">PASS</span><span class="gate__why">Six nav links, six existing sections.</span></div>
-        <div class="gate__row"><span class="gate__id">R-26</span><span class="gate__v">PASS</span><span class="gate__why">Theme toggle, four dashboard states, four validity options, two switches, three copy buttons and the pairing modal all change real state. No dead controls.</span></div>
-        <div class="gate__row"><span class="gate__id">R-27</span><span class="gate__v">PASS</span><span class="gate__why">Dashboard shown paired, loading, empty and error. Session shown live and failed.</span></div>
+        <div class="gate__row"><span class="gate__id">R-26</span><span class="gate__v">PASS</span><span class="gate__why">Theme toggle, four dashboard states, four validity options, two switches, copy buttons, the pairing modal, revoke with confirmation, revoke all and forget a computer all change real state. No dead controls.</span></div>
+        <div class="gate__row"><span class="gate__id">R-27</span><span class="gate__v">PASS</span><span class="gate__why">Dashboard shown paired, loading, empty and error. Session shown live and failed. Paired-devices list shown with three devices and two issued codes.</span></div>
         <div class="gate__row"><span class="gate__id">R-31</span><span class="gate__v">PASS</span><span class="gate__why">Every decision carries a written reason in the copy.</span></div>
         <div class="gate__row"><span class="gate__id">R-32</span><span class="gate__v">PASS</span><span class="gate__why">All controls are native buttons and links, visible focus ring, modal closes on Escape.</span></div>
         <div class="gate__row"><span class="gate__id">R-35</span><span class="gate__v">PASS</span><span class="gate__why">Rendered in a real browser, every control exercised in both themes, console clean.</span></div>
-        <div class="gate__row"><span class="gate__id">R-38</span><span class="gate__v">PASS</span><span class="gate__why">No invented data. Proposed fields are labelled as proposals in the panel.</span></div>
+        <div class="gate__row"><span class="gate__id">R-38</span><span class="gate__v">PASS</span><span class="gate__why">No invented data. Proposed fields carry a "name proposed" marker. Every claim about the daemon is read from the source, including the two findings that revoke is impossible and only one session slot exists.</span></div>
         <div class="gate__row"><span class="gate__id">R-39</span><span class="gate__v">PASS</span><span class="gate__why">Landmarks, one h1, no skipped heading levels, accessible names on every control, labelled fields.</span></div>
       </div>
     </div>
