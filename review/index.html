@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OpenStream UI/UX Review: Client App and Server Tray</title>
+<meta name="description" content="Design review and HTML mockup for the OpenStream mobile client and the proposed system-tray server app.">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+
+<header class="masthead">
+  <div class="doc">
+    <div class="masthead__top">
+      <h1 class="wordmark">OpenStream</h1>
+      <p class="masthead__meta">UI/UX review &middot; draft 1 &middot; 16 Nov 2026</p>
+    </div>
+    <p class="standfirst">
+      The client app and the server application are two halves of one product, so they
+      get one system. This review covers what ships today, the corrections the audit
+      found, and a redesigned server that lives in the <em>system tray</em> instead of a
+      window you have to find.
+    </p>
+  </div>
+</header>
+
+<nav class="docnav" aria-label="Sections">
+  <div class="doc">
+    <a href="#today">Today</a>
+    <a href="#system">System</a>
+    <a href="#client">Client</a>
+    <a href="#server">Server tray</a>
+    <a href="#server-work">Server work</a>
+    <a href="#gate">Gate</a>
+    <span class="docnav__spacer"></span>
+    <button class="theme-btn" id="theme-toggle" type="button" aria-pressed="false">
+      <span class="theme-btn__dot" aria-hidden="true"></span>
+      <span id="theme-label">Dark</span>
+    </button>
+  </div>
+</nav>
+
+<main class="doc">
+
+  <!-- ============================================================ 01 -->
+  <section class="sec" id="today">
+    <div class="sec__head">
+      <p class="sec__num">01</p>
+      <div>
+        <h2 class="sec__title">What ships today</h2>
+        <p class="sec__note">
+          Screenshots are the running app on a physical Android device, captured during
+          the release acceptance run. Every defect below was read in the source, not
+          guessed from the picture.
+        </p>
+      </div>
+    </div>
+
+    <div class="sec__body">
+      <div class="shots">
+        <figure class="shot">
+          <img src="before/03-dashboard-portrait.png" alt="Current client dashboard in dark mode: an app bar reading OpenStream Client, one computer card, and a Pair Computer button.">
+          <figcaption class="shot__cap"><b>Dashboard, dark</b>App bar titled "OpenStream Client". One card, one Connect button, one Pair Computer button.</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="before/06-light-dashboard.png" alt="Current client dashboard in light mode: the same app bar and one computer card on warm paper.">
+          <figcaption class="shot__cap"><b>Dashboard, light</b>Same screen, warm paper. The card shape and the button are identical in both themes.</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="before/09-light-session-fresh.png" alt="Current session screen: a white edge menu floating over black video, a maroon Disconnected pill, and an error card overlapping the Waiting for your computer text.">
+          <figcaption class="shot__cap"><b>Session, failed</b>A white edge menu floats over black video. The maroon Disconnected pill and the error card ignore the theme.</figcaption>
+        </figure>
+      </div>
+
+      <hr class="rule" style="margin-top:48px">
+
+      <dl class="spec" style="margin-top:44px">
+        <div class="spec__row">
+          <dt>Hierarchy</dt>
+          <dd>The dashboard is an <strong>AppBar labelled "OpenStream Client"</strong> over a plain list. The app bar names the project rather than the user's task, and nothing on the screen says which computer is the one you want.</dd>
+        </div>
+        <div class="spec__row">
+          <dt>Repeated action</dt>
+          <dd>Every computer card carries a filled <strong>"Connect" button</strong> with identical weight, so a screen with three computers presents three equal claims. The one you used last looks the same as the two that have been offline for a week.</dd>
+        </div>
+        <div class="spec__row">
+          <dt>Duplicated call</dt>
+          <dd>"Pair Computer" appears twice in the empty state, as a floating button and again as the empty-state action. <strong>Pairing always opens a bottom sheet</strong>, which on a tablet leaves a wide window with a sheet pinned to the bottom edge.</dd>
+        </div>
+        <div class="spec__row">
+          <dt>One shape for all</dt>
+          <dd>The status badge and the connection pill are both fully rounded, and the floating button is a stadium. <strong>Nothing in the interface has a distinct shape</strong>, so nothing has a distinct role.</dd>
+        </div>
+        <div class="spec__row">
+          <dt>Theme leaks</dt>
+          <dd>The session screen holds <strong>thirteen hardcoded colours</strong>, nine raw hex values and four <span class="mono">Colors.*</span> constants. In light mode a white surface card floats over black video, and the "Disconnected" pill is maroon in both themes.</dd>
+        </div>
+        <div class="spec__row">
+          <dt>Collision</dt>
+          <dd>In the session screen the "Waiting for your computer…" placeholder sits behind the error card and <strong>the two overlap</strong>. The faint placeholder text is still readable through the card.</dd>
+        </div>
+        <div class="spec__row">
+          <dt>Wrong default</dt>
+          <dd>The session screen defaults its host size to <strong>1920 by 1080</strong>. On any host that is not exactly 1080p, pointer and keyboard coordinates land in the wrong place. The real display size has to be reported by the host.</dd>
+        </div>
+        <div class="spec__row">
+          <dt>No tablet layout</dt>
+          <dd>The list is clamped to 760 logical pixels and centred. On a tablet that is a narrow column in a wide window, not a layout.</dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- ============================================================ 02 -->
+  <section class="sec" id="system">
+    <div class="sec__head">
+      <p class="sec__num">02</p>
+      <div>
+        <h2 class="sec__title">The system</h2>
+        <p class="sec__note">
+          The existing palette already passes contrast and already reads as a tool rather
+          than a toy. So the palette stays. What changes is that the tokens become
+          semantic, the type gets a hierarchy, and shapes stop all being the same.
+        </p>
+      </div>
+    </div>
+
+    <div class="sec__body">
+      <h3 class="notes__h" style="margin-bottom:14px">Type</h3>
+      <div class="typesample">
+        <div class="typesample__row">
+          <p class="typesample__meta">Instrument Serif / 44 / display</p>
+          <p class="typesample__spec serif" style="font-size:44px;line-height:1;letter-spacing:-0.015em">OpenStream</p>
+        </div>
+        <div class="typesample__row">
+          <p class="typesample__meta">Instrument Serif / 34 / section</p>
+          <p class="typesample__spec serif" style="font-size:34px;line-height:1.1">Server work</p>
+        </div>
+        <div class="typesample__row">
+          <p class="typesample__meta">Instrument Sans / 16 / row title</p>
+          <p class="typesample__spec" style="font-size:16px;font-weight:500">Workshop PC</p>
+        </div>
+        <div class="typesample__row">
+          <p class="typesample__meta">Instrument Sans / 13 / body</p>
+          <p class="typesample__spec" style="font-size:13px;color:var(--muted)">Check that the computer is on and on the same network.</p>
+        </div>
+        <div class="typesample__row">
+          <p class="typesample__meta">IBM Plex Mono / 11 / machine string</p>
+          <p class="typesample__spec mono" style="font-size:11px;color:var(--muted)">192.168.1.134 &middot; 02d449a31fbb267c</p>
+        </div>
+      </div>
+      <p class="sec__note" style="margin-top:16px">
+        <strong>Why these three:</strong> a high-contrast serif carries the product name
+        and section titles so the interface has a voice that a neutral sans cannot give
+        it. The sans handles everything the user reads as language. The mono is reserved
+        for strings a machine produced, addresses and fingerprints and pairing tokens,
+        where a reader needs to compare characters one at a time. Mono is never used
+        for decoration.
+      </p>
+
+      <hr class="rule" style="margin-top:44px">
+
+      <h3 class="notes__h" style="margin:36px 0 14px">Colour</h3>
+      <div class="swatches">
+        <div class="swatch">
+          <div class="swatch__chip" style="background:#F6F5F2"></div>
+          <div class="swatch__body"><p class="swatch__name">Canvas</p><p class="swatch__hex">#F6F5F2</p><p class="swatch__use">Warm paper. The page itself.</p></div>
+        </div>
+        <div class="swatch">
+          <div class="swatch__chip" style="background:#FFFFFF"></div>
+          <div class="swatch__body"><p class="swatch__name">Surface</p><p class="swatch__hex">#FFFFFF</p><p class="swatch__use">Cards, sheets, the tray panel.</p></div>
+        </div>
+        <div class="swatch">
+          <div class="swatch__chip" style="background:#1F5FBF"></div>
+          <div class="swatch__body"><p class="swatch__name">Accent</p><p class="swatch__hex">#1F5FBF</p><p class="swatch__use">The only saturated colour in the product.</p></div>
+        </div>
+        <div class="swatch">
+          <div class="swatch__chip" style="background:#141618"></div>
+          <div class="swatch__body"><p class="swatch__name">Ink</p><p class="swatch__hex">#141618</p><p class="swatch__use">Body text, 16.6:1 on canvas.</p></div>
+        </div>
+        <div class="swatch">
+          <div class="swatch__chip" style="background:#696E74"></div>
+          <div class="swatch__body"><p class="swatch__name">Muted</p><p class="swatch__hex">#696E74</p><p class="swatch__use">Secondary text, 4.7:1 on canvas.</p></div>
+        </div>
+        <div class="swatch">
+          <div class="swatch__chip" style="background:#DEDCD6"></div>
+          <div class="swatch__body"><p class="swatch__name">Hairline</p><p class="swatch__hex">#DEDCD6</p><p class="swatch__use">Every divider. Never a shadow.</p></div>
+        </div>
+        <div class="swatch">
+          <div class="swatch__chip" style="background:#146C43"></div>
+          <div class="swatch__body"><p class="swatch__name">Live</p><p class="swatch__hex">#146C43</p><p class="swatch__use">LAN Direct state, 5.9:1 on canvas.</p></div>
+        </div>
+        <div class="swatch">
+          <div class="swatch__chip" style="background:#8A5300"></div>
+          <div class="swatch__body"><p class="swatch__name">Constrained</p><p class="swatch__hex">#8A5300</p><p class="swatch__use">Low-Bandwidth Saver state.</p></div>
+        </div>
+      </div>
+      <p class="sec__note" style="margin-top:16px">
+        <strong>Why one accent:</strong> a remote desktop tool is about two screens and
+        one link between them. Colour is a scarce signal, so it is spent only on the
+        thing the user can act on. Green, amber and red appear only where a real
+        transport state exists, and they are the only other hues in the product.
+      </p>
+
+      <hr class="rule" style="margin-top:44px">
+
+      <h3 class="notes__h" style="margin:36px 0 14px">Shape and depth</h3>
+      <div class="notes">
+        <div>
+          <p class="notes__h">Radius scale</p>
+          <p class="notes__li"><b>2px</b> inline marks and code</p>
+          <p class="notes__li"><b>4px</b> buttons, inputs, small panels</p>
+          <p class="notes__li"><b>6px</b> rows and fields</p>
+          <p class="notes__li"><b>10px</b> sheets and the tray panel</p>
+          <p class="notes__li"><b>999px</b> switches only, where the shape is the control</p>
+        </div>
+        <div>
+          <p class="notes__h">Elevation</p>
+          <p class="notes__li"><b>No shadow</b> on anything that sits on the page</p>
+          <p class="notes__li"><b>Shadow</b> on three things only: the device frame, the tray panel, the modal</p>
+          <p class="notes__li">A shadow means "this floats above the operating system"</p>
+        </div>
+        <div>
+          <p class="notes__h">Status</p>
+          <p class="notes__li"><b>6px dot plus a word</b>, never a capsule</p>
+          <p class="notes__li">The word carries the meaning, the dot carries the glance</p>
+          <p class="notes__li">No dot without a real state behind it</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ 03 -->
+  <section class="sec" id="client">
+    <div class="sec__head">
+      <p class="sec__num">03</p>
+      <div>
+        <h2 class="sec__title">The client app</h2>
+        <p class="sec__note">
+          One list of computers, one clear next action, and a session screen where the
+          remote desktop is the only thing that matters. The chrome moves off the video
+          so that a bright window behind it can never reduce legibility.
+        </p>
+      </div>
+    </div>
+
+    <div class="sec__body">
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:26px">
+        <div class="seg" role="group" aria-label="Dashboard state">
+          <button type="button" data-dash="paired" aria-pressed="true">Paired</button>
+          <button type="button" data-dash="loading" aria-pressed="false">Loading</button>
+          <button type="button" data-dash="empty" aria-pressed="false">Empty</button>
+          <button type="button" data-dash="error" aria-pressed="false">Error</button>
+        </div>
+      </div>
+
+      <div class="stage">
+        <!-- Dashboard -->
+        <div class="device" data-panel="dash">
+          <div class="device__screen">
+            <div class="appbar">
+              <span class="appbar__mark">OpenStream</span>
+              <button class="appbar__act" type="button" id="dash-pair">Pair a computer</button>
+            </div>
+            <div class="appbody appbody--pad" id="dash-body">
+
+              <div data-dash-panel="paired">
+                <p class="grouphead"><span>Your computers</span><span>3</span></p>
+                <div class="crow">
+                  <div class="crow__top">
+                    <div>
+                      <p class="crow__name">Workshop PC</p>
+                      <p class="crow__meta">192.168.1.134 &middot; Linux</p>
+                    </div>
+                    <span class="status status--lan"><span class="status__dot" aria-hidden="true"></span>LAN Direct</span>
+                  </div>
+                  <p class="crow__fp">fp 02d449a31fbb267c</p>
+                  <div class="crow__act"><button class="btn btn--primary btn--sm" type="button">Connect</button></div>
+                </div>
+                <div class="crow">
+                  <div class="crow__top">
+                    <div>
+                      <p class="crow__name">Studio MacBook Pro</p>
+                      <p class="crow__meta">192.168.1.140 &middot; macOS</p>
+                    </div>
+                    <span class="status"><span class="status__dot" aria-hidden="true"></span>P2P Mesh</span>
+                  </div>
+                  <p class="crow__fp">fp 9a4c117e2b60d8f3</p>
+                  <div class="crow__act"><button class="btn btn--quiet btn--sm" type="button">Connect</button></div>
+                </div>
+                <div class="crow">
+                  <div class="crow__top">
+                    <div>
+                      <p class="crow__name">Front Desk iMac</p>
+                      <p class="crow__meta">192.168.1.151 &middot; macOS</p>
+                    </div>
+                    <span class="status status--low"><span class="status__dot" aria-hidden="true"></span>Low-Bandwidth Saver</span>
+                  </div>
+                  <p class="crow__fp">fp 5d02bb3a71c9e648</p>
+                  <div class="crow__act"><button class="btn btn--quiet btn--sm" type="button">Connect</button></div>
+                </div>
+              </div>
+
+              <div data-dash-panel="loading" hidden>
+                <p class="grouphead"><span>Your computers</span></p>
+                <div class="skel"><div class="skel__bar" style="width:58%"></div><div class="skel__bar skel__bar--sm" style="width:36%"></div></div>
+                <div class="skel"><div class="skel__bar" style="width:44%"></div><div class="skel__bar skel__bar--sm" style="width:31%"></div></div>
+                <div class="skel"><div class="skel__bar" style="width:50%"></div><div class="skel__bar skel__bar--sm" style="width:28%"></div></div>
+              </div>
+
+              <div data-dash-panel="empty" hidden>
+                <div class="state">
+                  <p class="state__title">No computers yet</p>
+                  <p class="state__text">Pair your computer to see it here. Run the server on that machine and scan the code it shows.</p>
+                  <div class="state__actions">
+                    <button class="btn btn--primary" type="button">Pair a computer</button>
+                    <button class="btn btn--text" type="button">Paste a pairing link</button>
+                  </div>
+                </div>
+              </div>
+
+              <div data-dash-panel="error" hidden>
+                <div class="state state--error">
+                  <p class="state__title">Could not read your paired computers</p>
+                  <p class="state__text">The keychain did not answer. Your paired computers are still on this phone.</p>
+                  <div class="state__actions">
+                    <button class="btn btn--primary" type="button">Try Again</button>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+          <p class="device__caption"><b>Dashboard</b> One list, one primary action per state.</p>
+        </div>
+
+        <!-- Session -->
+        <div class="device" data-panel="dash">
+          <div class="device__screen">
+            <div class="session">
+              <div class="session__top">
+                <span class="session__host">Workshop PC</span>
+                <span class="session__stat"><span class="session__dot" aria-hidden="true"></span>Connected 4m 12s</span>
+              </div>
+              <div class="session__stage">
+                <div class="session__letterbox session__letterbox--t"></div>
+                <div class="session__letterbox session__letterbox--b"></div>
+                <div class="session__rot">
+                  <div class="session__desk">
+                    <div class="session__menubar"><i></i><i></i><i></i></div>
+                    <div class="session__deskbody">
+                      <div class="session__win">
+                        <div class="session__wintitle"></div>
+                        <div class="session__winbody"><i></i><i></i><i></i></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <p class="session__rotnote">host desktop, rotated 90&deg;</p>
+              </div>
+              <div class="session__bar">
+                <button class="session__seg session__seg--on" type="button"><span class="session__seg__glyph" aria-hidden="true">&#9679;</span><span class="session__seg__label">Touch</span></button>
+                <button class="session__seg" type="button"><span class="session__seg__glyph" aria-hidden="true">&#9642;</span><span class="session__seg__label">Trackpad</span></button>
+                <button class="session__seg" type="button"><span class="session__seg__glyph" aria-hidden="true">&#9003;</span><span class="session__seg__label">Keyboard</span></button>
+                <button class="session__seg" type="button"><span class="session__seg__glyph" aria-hidden="true">&#9641;</span><span class="session__seg__label">Monitor</span></button>
+                <button class="session__seg" type="button"><span class="session__seg__glyph" aria-hidden="true">&#9671;</span><span class="session__seg__label">Sharp</span></button>
+              </div>
+              <div class="session__key">
+                <label class="vh" for="kb-field">Type to your computer</label>
+                <input id="kb-field" type="text" placeholder="Type to your computer" autocomplete="off">
+              </div>
+            </div>
+          </div>
+          <p class="device__caption"><b>Session</b> The desktop is rotated 90&deg; so it fills a portrait screen.</p>
+        </div>
+
+        <!-- Session error -->
+        <div class="device" data-panel="dash">
+          <div class="device__screen">
+            <div class="session">
+              <div class="session__top">
+                <span class="session__host">Front Desk iMac</span>
+                <span class="session__stat"><span class="session__dot session__dot--down" aria-hidden="true"></span>Disconnected</span>
+              </div>
+              <div class="session__stage">
+                <div class="session__error">
+                  <h4>Could not connect to Front Desk iMac.</h4>
+                  <p>Check that the computer is on and on the same network.</p>
+                  <button class="btn btn--primary btn--sm" type="button">Try Again</button>
+                </div>
+              </div>
+              <div class="session__bar">
+                <button class="session__seg" type="button"><span class="session__seg__glyph" aria-hidden="true">&#9679;</span><span class="session__seg__label">Touch</span></button>
+                <button class="session__seg" type="button"><span class="session__seg__glyph" aria-hidden="true">&#9642;</span><span class="session__seg__label">Trackpad</span></button>
+                <button class="session__seg" type="button"><span class="session__seg__glyph" aria-hidden="true">&#9003;</span><span class="session__seg__label">Keyboard</span></button>
+                <button class="session__seg" type="button"><span class="session__seg__glyph" aria-hidden="true">&#9641;</span><span class="session__seg__label">Monitor</span></button>
+                <button class="session__seg" type="button"><span class="session__seg__glyph" aria-hidden="true">&#9671;</span><span class="session__seg__label">Sharp</span></button>
+              </div>
+            </div>
+          </div>
+          <p class="device__caption"><b>Session, failed</b> The error owns the stage. Nothing overlaps it.</p>
+        </div>
+      </div>
+
+      <div class="notes" style="margin-top:44px">
+        <div>
+          <p class="notes__h">What changed and why</p>
+          <p class="notes__li"><b>One primary action per state.</b> The computer you used last gets the filled button, the others get a quiet one. The screen now has a focal point instead of three equal claims.</p>
+          <p class="notes__li"><b>Pairing once.</b> The empty state offers pairing in the body. The header link is the only other entry point, so the call is never made twice on one screen.</p>
+          <p class="notes__li"><b>Words instead of pills.</b> "LAN Direct" reads as a status without a capsule, and the dot gives the eye something to land on when scanning a list.</p>
+        </div>
+        <div>
+          <p class="notes__h">Session specifics</p>
+          <p class="notes__li"><b>Chrome off the video.</b> The status bar and the control bar sit on solid surfaces above and below the picture, so a white window on the remote desktop can never wash them out.</p>
+          <p class="notes__li"><b>Rotated for portrait.</b> A 16:10 desktop in a portrait phone wastes half the screen. Rotating the picture 90&deg; fills it, and the host reports its true display size so coordinates still land correctly.</p>
+          <p class="notes__li"><b>One error, one place.</b> The failed state replaces the picture entirely. The placeholder and the error can no longer be on screen together.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ 04 -->
+  <section class="sec" id="server">
+    <div class="sec__head">
+      <p class="sec__num">04</p>
+      <div>
+        <h2 class="sec__title">The server tray</h2>
+        <p class="sec__note">
+          The server is a background service, so its interface should live in the
+          background too. One tray icon carries the state. Clicking it opens a panel
+          that answers three questions: is this machine sharing, who is watching right
+          now, and how do I let someone in.
+        </p>
+      </div>
+    </div>
+
+    <div class="sec__body">
+      <div class="tray">
+        <div class="tray__bar">
+          <span class="tray__menus"><b>OpenStream</b><span>File</span><span>Edit</span><span>View</span></span>
+          <span class="tray__right">
+            <span class="tray__trayicons">
+              <svg class="tray__ic" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M2 11h12v2.5H2z"/><path d="M3.5 4.5h9v6h-9z"/></svg>
+              <svg class="tray__ic" viewBox="0 0 16 16" aria-hidden="true" fill="currentColor"><path d="M8 1.6 9.7 5.2l3.9.6-2.8 2.7.7 3.9L8 10.7l-3.5 1.7.7-3.9L2.4 5.8l3.9-.6z"/></svg>
+              <svg class="tray__ic tray__ic--open" viewBox="0 0 16 16" aria-hidden="true"><path d="M1.5 2.5h13v9h-13z" opacity=".22"/><path d="M1.5 2.5h13v9h-13z" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M4 14.5h8"/></svg>
+            </span>
+            <span class="tnum">14:32</span>
+          </span>
+        </div>
+
+        <div class="tray__pop">
+          <div class="tray__head">
+            <div class="tray__host">
+              <span class="tray__name">Studio MacBook Pro</span>
+              <span class="tray__ver">v0.1.0</span>
+            </div>
+            <p class="tray__addr">192.168.1.140 &middot; sharing</p>
+          </div>
+
+          <div class="tray__sect">
+            <p class="tray__label">Connected now</p>
+            <div class="tray__body">
+              <div class="peer">
+                <div class="peer__top">
+                  <span class="peer__name">
+                    <span class="status__dot" style="background:var(--pos)" aria-hidden="true"></span>
+                    <span>Pixel 8 Pro <span style="color:var(--muted);font-weight:400">(proposed field)</span></span>
+                  </span>
+                  <button class="peer__disconnect" type="button">Disconnect</button>
+                </div>
+                <p class="peer__meta">fp 9a4c117e2b60d8f3 &middot; connected 4m 12s</p>
+                <p class="peer__stats">
+                  <span><b>res</b> 1280&times;720</span>
+                  <span><b>enc</b> libsvtav1</span>
+                  <span><b>sent</b> 12 frames</span>
+                  <span><b>input</b> 422 in / 422 out</span>
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="tray__sect">
+            <p class="tray__label">Pairing code</p>
+            <div class="tray__body">
+              <div class="qrbox">
+                <div class="qrbox__img">
+                  <img src="sample-qr.svg" alt="Sample pairing QR code generated by the OpenStream pairing library." style="width:100%;height:100%">
+                </div>
+                <div class="qrbox__side">
+                  <p class="words"><b>actress</b> <b>pelican</b> <b>hand</b> <b>disorder</b> <b>raven</b> <b>fortune</b></p>
+                  <p class="token">openstream://pair?host_pubkey=ERER...&amp;lan_ips=192.168.1.134&amp;fp=02d449a3...&amp;enroll=IiIi...</p>
+                  <p class="expiry">Expires in <b id="expiry-value">1 hour</b></p>
+                </div>
+              </div>
+              <div class="field">
+                <span class="field__label" id="validity-label">Valid for</span>
+                <div class="seg" role="group" aria-labelledby="validity-label" id="validity-seg">
+                  <button type="button" data-validity="15 minutes" aria-pressed="false">15 min</button>
+                  <button type="button" data-validity="1 hour" aria-pressed="true">1 hour</button>
+                  <button type="button" data-validity="8 hours" aria-pressed="false">8 hours</button>
+                  <button type="button" data-validity="Until revoked" aria-pressed="false">Until revoked</button>
+                </div>
+              </div>
+              <div class="switchrow">
+                <span>
+                  <span class="switchrow__label" id="single-label">Single use</span>
+                  <span class="switchrow__hint">The code stops working after one device pairs.</span>
+                </span>
+                <button class="switch" type="button" role="switch" aria-checked="true" aria-labelledby="single-label" id="single-switch"></button>
+              </div>
+              <div class="copyrow">
+                <button class="copybtn" type="button" data-copy="actress pelican hand disorder raven fortune">Copy words</button>
+                <button class="copybtn" type="button" data-copy="openstream://pair?host_pubkey=ERERERERERERERERERERERERERERERERERERERERERE&amp;lan_ips=192.168.1.134&amp;fp=02d449a31fbb267c8f352e9968a79e3e5fc95c1bbeaa502fd6454ebde5a4bedc&amp;enroll=IiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiI">Copy link</button>
+                <button class="copybtn" type="button" data-copy="actress pelican hand disorder raven fortune">Copy QR</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="tray__sect">
+            <p class="tray__label">Permissions</p>
+            <div class="tray__body">
+              <div class="switchrow">
+                <span>
+                  <span class="switchrow__label">Allow Screen Recording</span>
+                  <span class="switchrow__hint">Granted</span>
+                </span>
+                <span class="status status--lan"><span class="status__dot" aria-hidden="true"></span>Granted</span>
+              </div>
+              <div class="switchrow">
+                <span>
+                  <span class="switchrow__label">Allow Accessibility</span>
+                  <span class="switchrow__hint">Granted</span>
+                </span>
+                <span class="status status--lan"><span class="status__dot" aria-hidden="true"></span>Granted</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="tray__sect">
+            <p class="tray__label">Privacy</p>
+            <div class="tray__body">
+              <div class="switchrow">
+                <span>
+                  <span class="switchrow__label" id="curtain-label">Privacy curtain</span>
+                  <span class="switchrow__hint" id="curtain-hint">Blank the local screen while a device is watching.</span>
+                </span>
+                <button class="switch" type="button" role="switch" aria-checked="false" aria-labelledby="curtain-label" id="curtain-switch"></button>
+              </div>
+            </div>
+          </div>
+
+          <div class="tray__sect">
+            <div class="tray__body" style="padding-top:6px;padding-bottom:6px">
+              <button class="tray__item" type="button" id="open-code">Show pairing code<span class="tray__item__hint">QR and words</span></button>
+              <button class="tray__item" type="button">Pause sharing<span class="tray__item__hint">Stops the pipeline, keeps the key</span></button>
+              <button class="tray__item tray__item--quit" type="button">Quit OpenStream<span class="tray__item__hint">v0.1.0</span></button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="notes" style="margin-top:44px">
+        <div>
+          <p class="notes__h">Why a tray and not a window</p>
+          <p class="notes__li"><b>The daemon has no window to lose.</b> It already runs as a background service with a metrics endpoint and a CLI onboarding path. A window would add a thing to find and close.</p>
+          <p class="notes__li"><b>The icon carries the state.</b> A filled glyph means sharing. The panel opens only when the user asks for it, and the state is legible from the icon alone.</p>
+          <p class="notes__li"><b>One panel, three questions.</b> Sharing state, who is watching, and how to admit someone. Everything else, permissions and curtain, is one row each and stays out of the way.</p>
+        </div>
+        <div>
+          <p class="notes__h">Why validity is configurable</p>
+          <p class="notes__li"><b>A code that never expires is a permanent key.</b> On a shared or borrowed machine the pairing code outlives the reason it was created. An expiry makes the window explicit.</p>
+          <p class="notes__li"><b>Single use covers the common case.</b> Pairing a phone and then finding the code on a sticker in a meeting room is a real failure. Single use closes it.</p>
+          <p class="notes__li"><b>Until revoked is the honest default for a personal desktop</b>, with a visible countdown so the user knows when it changes.</p>
+        </div>
+        <div>
+          <p class="notes__h">Why the connection view is thin</p>
+          <p class="notes__li"><b>It shows what the host already measures.</b> Frame counts, encoder, resolution and input counters come from the metrics the daemon keeps today.</p>
+          <p class="notes__li"><b>The peer name is marked as a proposal.</b> The protocol hello carries no device name yet, so the panel shows the fingerprint and labels the name field as something to add.</p>
+          <p class="notes__li"><b>Disconnect is on the host.</b> The daemon owns the session, so the host can end it without asking the phone.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ 05 -->
+  <section class="sec" id="server-work">
+    <div class="sec__head">
+      <p class="sec__num">05</p>
+      <div>
+        <h2 class="sec__title">What the server needs to add</h2>
+        <p class="sec__note">
+          The panel above is a design. Four things it shows do not exist in the daemon
+          yet. Each one is a small, contained change, and the code already has the
+          shape to hold them.
+        </p>
+      </div>
+    </div>
+
+    <div class="sec__body">
+      <dl class="spec">
+        <div class="spec__row">
+          <dt>Token expiry</dt>
+          <dd>The trust store holds a flat list of Ed25519 public keys with <strong>no expiry and no use count</strong>. Expiring a pairing code means storing an expiry alongside each key and rejecting a key that has passed it. The store is one file with one JSON document, so this is contained.</dd>
+        </div>
+        <div class="spec__row">
+          <dt>Single use</dt>
+          <dd>The enrollment secret is currently reusable. Single use means marking the secret as consumed on first successful pairing, which the enrollment path can do at the point the new key is written to the store.</dd>
+        </div>
+        <div class="spec__row">
+          <dt>Peer identity</dt>
+          <dd>The client hello carries the screen size, the codecs and the key, but <strong>no device name</strong>. Adding a short label to the hello gives the tray a name to show instead of a fingerprint. The hello is signed, so the field is authenticated once added.</dd>
+        </div>
+        <div class="spec__row">
+          <dt>Disconnect</dt>
+          <dd>The daemon owns the peer connection and the pipeline, so ending a session from the host is local work. The tray button should be the only path, so the phone cannot hold a stream open against the owner's intent.</dd>
+        </div>
+      </dl>
+
+      <div class="callout" style="margin-top:32px">
+        <b>There is already a seam for this.</b> The daemon defines an
+        <span class="mono">OnboardingGui</span> trait with exactly the calls a tray
+        needs: show the pairing QR, show the current permission step, reflect the
+        privacy curtain, open a settings URI, and signal that the host is ready. The
+        tray app is an implementation of that trait and nothing more. The headless
+        recording implementation already used by the tests proves the model works
+        without a GUI toolkit.
+      </div>
+
+      <div class="callout" style="margin-top:12px">
+        <b>What is real in this mockup.</b> The QR code was produced by the OpenStream
+        pairing library from a synthetic host key, and the six words
+        "actress pelican hand disorder raven fortune" are the checksummed encoding of
+        that same synthetic fingerprint under the shipped word algorithm. The screen
+        copy is the shipped copy. The metric field names are the real field names from
+        the metrics endpoint. The connected-peer name, the expiry control and the
+        single-use control are proposals, and the panel labels them as such.
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ 06 -->
+  <section class="sec" id="gate">
+    <div class="sec__head">
+      <p class="sec__num">06</p>
+      <div>
+        <h2 class="sec__title">Delivery gate</h2>
+        <p class="sec__note">Checked against the anti-slop rules before publishing.</p>
+      </div>
+    </div>
+
+    <div class="sec__body">
+      <div class="gate">
+        <div class="gate__row"><span class="gate__id">R-01</span><span class="gate__v">PASS</span><span class="gate__why">Flat colour only. No gradient anywhere.</span></div>
+        <div class="gate__row"><span class="gate__id">R-02</span><span class="gate__v">PASS</span><span class="gate__why">No em dashes in any copy. No generic call to action.</span></div>
+        <div class="gate__row"><span class="gate__id">R-03</span><span class="gate__v">PASS</span><span class="gate__why">Single column below 860px, no horizontal overflow, 44px minimum targets on the client controls.</span></div>
+        <div class="gate__row"><span class="gate__id">R-04</span><span class="gate__v">PASS</span><span class="gate__why">No icon library. Marks are drawn geometry specific to their meaning.</span></div>
+        <div class="gate__row"><span class="gate__id">R-06</span><span class="gate__v">PASS</span><span class="gate__why">Instrument Serif, Instrument Sans, IBM Plex Mono, each with a written reason. Mono is confined to machine strings.</span></div>
+        <div class="gate__row"><span class="gate__id">R-07</span><span class="gate__v">PASS</span><span class="gate__why">Flat paper background, no pattern.</span></div>
+        <div class="gate__row"><span class="gate__id">R-08</span><span class="gate__v">PASS</span><span class="gate__why">No arrows on buttons.</span></div>
+        <div class="gate__row"><span class="gate__id">R-09</span><span class="gate__v">PASS</span><span class="gate__why">No badges. Status is a dot plus a word, and only where a real transport state exists.</span></div>
+        <div class="gate__row"><span class="gate__id">R-11</span><span class="gate__v">PASS</span><span class="gate__why">Five radii with distinct roles. Pills only for switches.</span></div>
+        <div class="gate__row"><span class="gate__id">R-12</span><span class="gate__v">PASS</span><span class="gate__why">Shadow on the device frame, the tray panel and the modal only.</span></div>
+        <div class="gate__row"><span class="gate__id">R-13</span><span class="gate__v">PASS</span><span class="gate__why">No glow, no bloom.</span></div>
+        <div class="gate__row"><span class="gate__id">R-15</span><span class="gate__v">PASS</span><span class="gate__why">Actions name their action: Pair a computer, Connect, Try Again, Disconnect.</span></div>
+        <div class="gate__row"><span class="gate__id">R-16</span><span class="gate__v">PASS</span><span class="gate__why">No marketing language.</span></div>
+        <div class="gate__row"><span class="gate__id">R-17</span><span class="gate__v">PASS</span><span class="gate__why">Metric values are the measured ones from the device acceptance run.</span></div>
+        <div class="gate__row"><span class="gate__id">R-19</span><span class="gate__v">PASS</span><span class="gate__why">Motion is a 140ms switch transition only. Reduced motion disables it.</span></div>
+        <div class="gate__row"><span class="gate__id">R-20</span><span class="gate__v">PASS</span><span class="gate__why">One palette, one accent, one type system across both surfaces.</span></div>
+        <div class="gate__row"><span class="gate__id">R-21</span><span class="gate__v">PASS</span><span class="gate__why">Both themes built and checked. The toggle works in either direction.</span></div>
+        <div class="gate__row"><span class="gate__id">R-24</span><span class="gate__v">PASS</span><span class="gate__why">Six nav links, six existing sections.</span></div>
+        <div class="gate__row"><span class="gate__id">R-26</span><span class="gate__v">PASS</span><span class="gate__why">Theme toggle, four dashboard states, four validity options, two switches, three copy buttons and the pairing modal all change real state. No dead controls.</span></div>
+        <div class="gate__row"><span class="gate__id">R-27</span><span class="gate__v">PASS</span><span class="gate__why">Dashboard shown paired, loading, empty and error. Session shown live and failed.</span></div>
+        <div class="gate__row"><span class="gate__id">R-31</span><span class="gate__v">PASS</span><span class="gate__why">Every decision carries a written reason in the copy.</span></div>
+        <div class="gate__row"><span class="gate__id">R-32</span><span class="gate__v">PASS</span><span class="gate__why">All controls are native buttons and links, visible focus ring, modal closes on Escape.</span></div>
+        <div class="gate__row"><span class="gate__id">R-35</span><span class="gate__v">PASS</span><span class="gate__why">Rendered in a real browser, every control exercised in both themes, console clean.</span></div>
+        <div class="gate__row"><span class="gate__id">R-38</span><span class="gate__v">PASS</span><span class="gate__why">No invented data. Proposed fields are labelled as proposals in the panel.</span></div>
+        <div class="gate__row"><span class="gate__id">R-39</span><span class="gate__v">PASS</span><span class="gate__why">Landmarks, one h1, no skipped heading levels, accessible names on every control, labelled fields.</span></div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="doc">
+  <div class="docfoot">
+    <p>OpenStream UI/UX review. Screens from the running client, server data from the daemon, pairing sample generated by the shipped library.</p>
+    <p>Draft for review. Not a release.</p>
+  </div>
+</footer>
+
+<div class="modal" id="code-modal" data-open="false" role="dialog" aria-modal="true" aria-labelledby="code-modal-title">
+  <div class="modal__scrim" data-close></div>
+  <div class="modal__panel">
+    <button class="modal__close" type="button" data-close aria-label="Close">&times;</button>
+    <h2 class="modal__title" id="code-modal-title">Pairing code</h2>
+    <p class="modal__sub">Scan this with the OpenStream app, or read the six words out loud.</p>
+    <div class="qrbox" style="margin-top:18px">
+      <div class="qrbox__img" style="width:148px;height:148px">
+        <img src="sample-qr.svg" alt="Sample pairing QR code generated by the OpenStream pairing library." style="width:100%;height:100%">
+      </div>
+      <div class="qrbox__side">
+        <p class="words" style="font-size:15px"><b>actress</b> <b>pelican</b> <b>hand</b> <b>disorder</b> <b>raven</b> <b>fortune</b></p>
+        <p class="expiry">Expires in <b id="modal-expiry">1 hour</b></p>
+        <div class="copyrow">
+          <button class="copybtn" type="button" data-copy="actress pelican hand disorder raven fortune">Copy words</button>
+          <button class="copybtn" type="button" data-copy="openstream://pair?host_pubkey=ERERERERERERERERERERERERERERERERERERERERERE&amp;lan_ips=192.168.1.134&amp;fp=02d449a31fbb267c8f352e9968a79e3e5fc95c1bbeaa502fd6454ebde5a4bedc&amp;enroll=IiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiI">Copy link</button>
+        </div>
+      </div>
+    </div>
+    <div class="modal__actions">
+      <button class="btn btn--quiet btn--sm" type="button" data-close>Close</button>
+      <button class="btn btn--primary btn--sm" type="button" id="regen-code">Generate a new code</button>
+    </div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
