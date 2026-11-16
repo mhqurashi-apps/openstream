@@ -92,13 +92,12 @@
     warns about the disk image, and the iOS build has to be re-signed before a
     phone will run it. The SHA-256 next to each file is the one the build host
     measured.</p>
-    <p><strong>Where to get them.</strong> No public binary host is configured
-    yet, so these files are not downloadable from this page today. They sit in
-    the <code>build/packages/</code> directory of the build machine on the
-    project network, next to the <code>MANIFEST.txt</code> they came from, and
-    will be attached to the project's release page once one is published. This
-    page is the published checksum reference: when a file reaches you by any
-    route, compare it against the table below.</p>
+    <p><strong>Where to get them.</strong> These files are attached to the
+    <code>v0.1.0</code> release on the private source repository. There is no
+    public binary mirror, so they are not downloadable from this page; this page
+    is the published checksum reference. When a file reaches you by any route,
+    compare it against the table below and the <code>MANIFEST.txt</code> it came
+    with.</p>
   </div>
 
   <h2>OpenStream test build</h2>
@@ -111,21 +110,22 @@
   <p class="updated">OpenStream 0.1.0 &middot; hashes measured by the build host, not typed by hand.</p>
   <table>
     <tr><th>File</th><th>Size</th><th>SHA-256</th></tr>
-    <tr><td><code>OpenStream-0.1.0-android.apk</code></td><td>100358927 bytes</td><td class="hash">c0184cb0f6a509cb742fd5d137d825de70f02a3aab6d1a011156ba147cd72132</td></tr>
-    <tr><td><code>OpenStream-0.1.0-client-amd64.deb</code></td><td>22377240 bytes</td><td class="hash">27ae5af704708f966a2a94357ae2d7bed3935befcd9a82d9d35aef15dca122a0</td></tr>
-    <tr><td><code>OpenStream-0.1.0-client-x86_64.AppImage</code></td><td>40147448 bytes</td><td class="hash">52ea4dcdbf1fdeb041d7600dd844c71181ab3d70d937db803880e68e9d7bf501</td></tr>
-    <tr><td><code>OpenStream-0.1.0-client-x86_64.flatpak</code></td><td>25355248 bytes</td><td class="hash">c35e4b7ce9032202d63fb6d3a89331290bd9e07b5e9b9aef348391dbed3dd25c</td></tr>
-    <tr><td><code>OpenStream-0.1.0-server-amd64.deb</code></td><td>48367322 bytes</td><td class="hash">ef71f58a2d816d0d33682e53639262500cd6c2473771e3223d5af5a08850c72f</td></tr>
-    <tr><td><code>OpenStream-0.1.0-server-linux-x86_64.tar.xz</code></td><td>45604244 bytes</td><td class="hash">6205ce9c5ff5807e18ca060e39773ef2ec3124afa7fa3ce0a13d4ff00bb5cfd4</td></tr>
-    <tr><td><code>OpenStream-0.1.0-server-x64.msi</code></td><td>18902528 bytes</td><td class="hash">d072a40d8578bb6e113c65cbc49e00be41c73aa61788cd09587cf94040fd3cd3</td></tr>
-    <tr><td><code>OpenStream-0.1.0-server-x86_64.AppImage</code></td><td>55093752 bytes</td><td class="hash">0c217a13546e6abfc86994467af5fbd7810b1969196c9f6c407750bafc454d8d</td></tr>
-    <tr><td><code>OpenStream-0.1.0-server-x86_64.flatpak</code></td><td>44494648 bytes</td><td class="hash">8d8174107aed54f5e7400bc096207f2e51f31ca6a68a5f0aace739772a3e240e</td></tr>
-    <tr><td><code>SHA256SUMS.txt</code></td><td>1028 bytes</td><td class="hash">408f39536ca28a3d25cb8988f369ae867ea89d1d646c262dad837711cec42d9b</td></tr>
-    <tr><td><code>openstream-server-windows-x86_64.exe</code></td><td>17101874 bytes</td><td class="hash">6b5f941332c9a0131f50dd34190e8935031a1a7464370ed01caee992b332a6ee</td></tr>
+    <tr><td><code>OpenStream-0.1.0-android.apk</code></td><td>100424463 bytes</td><td class="hash">6d145ed6496e220312458e4b9aeffe7bbd7e50a9f4b9ef5873feafd90cfb69ef</td></tr>
+    <tr><td><code>OpenStream-0.1.0-client-amd64.deb</code></td><td>22378426 bytes</td><td class="hash">507911f102051505a1da02a7f7f772364bc02d41257439b380c9ce41e80f0d29</td></tr>
+    <tr><td><code>OpenStream-0.1.0-client-x86_64.AppImage</code></td><td>40151544 bytes</td><td class="hash">c1bfc740da32d3a6c532f374566888ecd4f8bdc87d7b07448a2b5a2d18dcc906</td></tr>
+    <tr><td><code>OpenStream-0.1.0-client-x86_64.flatpak</code></td><td>25368128 bytes</td><td class="hash">3672d82d74e79ffbc001f06571219937389602f44a978cd6f54a1684f3a982a0</td></tr>
+    <tr><td><code>OpenStream-0.1.0-server-amd64.deb</code></td><td>48494722 bytes</td><td class="hash">f367e74d5dd535b706cc3407c381f59f647074c5d9b449db0776a2237d6bc4c8</td></tr>
+    <tr><td><code>OpenStream-0.1.0-server-linux-x86_64.tar.xz</code></td><td>45754816 bytes</td><td class="hash">e8e40b07c450c69ed00a0607dd199451449cf8a6f3e34278f579e3f057bf6fca</td></tr>
+    <tr><td><code>OpenStream-0.1.0-server-x64.msi</code></td><td>18961920 bytes</td><td class="hash">e8eed8fa94b69818bdfdb5228043e4773ed3d9c658eb1a0a4d745544d0f7be96</td></tr>
+    <tr><td><code>OpenStream-0.1.0-server-x86_64.AppImage</code></td><td>55241208 bytes</td><td class="hash">67e6d45009cb8308c35c446a7c5bd84cdcd2dedc5f6b660976cd34515db93fdd</td></tr>
+    <tr><td><code>OpenStream-0.1.0-server-x86_64.flatpak</code></td><td>44637200 bytes</td><td class="hash">f242c1cd18eaef62ebeec40bc07108e4fa5dc75cf80cb200b7bdd0dabaf4aebd</td></tr>
+    <tr><td><code>SHA256SUMS.txt</code></td><td>1028 bytes</td><td class="hash">68736371325f5a2e4820b9bb681092e4974f6213ea7e3cbfaaae122947e18e7e</td></tr>
+    <tr><td><code>openstream-server-windows-x86_64.exe</code></td><td>17218052 bytes</td><td class="hash">625ed60ec7d666657660ec806e84ffe8cc2ac018977df56b094f3fc05b8e7402</td></tr>
   </table>
-  <p class="updated">Present files are the ones this build produced. Every one of them is
-  <strong>not published yet</strong>: no public binary host is configured, so fetch a
-  file from the build machine and check it against the hash above before installing.</p>
+  <p class="updated">Present files are the ones this build produced. They are
+  attached to the <code>v0.1.0</code> release on the private source repository; no
+  public binary mirror is configured, so this page is the published checksum
+  reference for a file that reaches you by any route.</p>
   <h3>Not in this build</h3>
   <ul>
     <li>Windows Flutter client .msi — needs MSVC + the Flutter windows desktop toolchain; .github/workflows/ci.yml package-windows</li>
@@ -134,6 +134,34 @@
     <li>macOS server — no x86_64-apple-darwin target and no macOS SDK on this host; macOS binaries are CI-only</li>
   </ul>
 <!-- artifacts:end -->
+
+  <h2>What this build does, and does not</h2>
+  <p>Proven on a real Android 14 device against a real Linux host in phase 31:</p>
+  <ul>
+    <li>the host captures its <strong>X11</strong> display, encodes H.264, and
+        publishes it to the session; the device decodes and shows the picture;</li>
+    <li>a swipe on the phone is injected into the host's X server and moves its
+        pointer;</li>
+    <li>pairing by deep link and by pasted link, runtime enrollment without a
+        server restart, both control channels, and the signed ClientHello.</li>
+  </ul>
+  <p>Still missing or unproven in this build:</p>
+  <ul>
+    <li>the host must run an <strong>X11</strong> session; there is no Wayland,
+        macOS or Windows capture backend;</li>
+    <li>the Windows client <code>.msi</code>, macOS <code>.dmg</code> and iOS
+        <code>.ipa</code> are not built (they need native toolchains);</li>
+    <li>keyboard injection is not driven on a device, and frame rate, cursor
+        latency and bitrate adaptation are not measured end to end;</li>
+    <li>nothing is code-signed; Android warns on sideload and SmartScreen warns
+        on the MSI.</li>
+  </ul>
+  <p>The evidence, the exit codes and every limit are documented in
+  <a href="https://github.com/MHQurashi/openstream/blob/main/infra/e2e-flutter-device.md">infra/e2e-flutter-device.md</a>
+  and <a href="https://github.com/MHQurashi/openstream/blob/main/docs/TESTING.md">docs/TESTING.md</a>.
+  The device proof used a diagnostics build of the same client so the app could
+  report its decoded-frame counter; the shipping APK is that client with the
+  diagnostics constant compiled out.</p>
 
   <h2>Verify a file you downloaded</h2>
   <p>Put the file in a directory with <code>MANIFEST.txt</code>, open a terminal

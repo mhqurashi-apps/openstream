@@ -75,10 +75,10 @@
 
   <div class="lede">
     <p><strong>The short version.</strong> OpenStream is 100% free and open-source
-    remote desktop. Your macOS, Windows or Linux computer streams to your iPhone,
-    iPad or Android device. There is no account to create, no subscription, and
-    no proprietary runtime &mdash; every dependency is MIT, BSD, Apache-2.0 or
-    LGPL/GPL.</p>
+    remote desktop. Your Linux computer streams to your Android device today;
+    macOS, Windows and iOS are on the roadmap, not in this build. There is no
+    account to create, no subscription, and no proprietary runtime &mdash; every
+    dependency is MIT, BSD, Apache-2.0 or LGPL/GPL.</p>
   </div>
 
   <h2>How it pairs</h2>
@@ -96,11 +96,26 @@
   </ul>
 
   <h2>Current status</h2>
-  <p>The first release is being built now, under a zero-defect gate: the Rust
-  workspace and the Flutter client must compile clean, pass clippy with
-  warnings denied, and pass their tests before a phase is called done. The
-  cross-platform installers are produced by open-source CI when a release is
-  dispatched by hand.</p>
+  <p><strong>v0.1.0 is built and proven on real hardware.</strong> A Linux host
+  captures its X11 display, encodes H.264, publishes it over WebRTC, and a real
+  Android 14 device decodes and shows the picture; a swipe on the phone is
+  injected into the host's X server and moves its pointer. The same run proves
+  pairing by deep link and by pasted link, runtime enrollment without a server
+  restart, both control channels, and the signed session handshake.</p>
+
+  <p>What it still does <strong>not</strong> do: the host needs an X11 session
+  (there is no Wayland, macOS or Windows capture backend in this build), the
+  Windows client <code>.msi</code>, macOS <code>.dmg</code> and iOS
+  <code>.ipa</code> are not built, keyboard injection and frame rate/latency are
+  not proven on a device, and the installer is unsigned. The Linux server and
+  the Android client are the tested pair today. The full list is in
+  <a href="downloads.html">Downloads</a> and
+  <a href="https://github.com/MHQurashi/openstream/blob/main/docs/TESTING.md">docs/TESTING.md</a>.</p>
+
+  <p>Every phase is gated: the Rust workspace and the Flutter client must compile
+  clean, pass clippy with warnings denied, and pass their tests before a phase is
+  called done. The cross-platform installers are produced by open-source tooling
+  when a release is dispatched by hand.</p>
 
   <p><a href="downloads.html">Downloads</a> &middot; <a href="privacy.html">Privacy Policy</a> &middot; <a href="support.html">Support</a> &middot;
   <a href="https://github.com/MHQurashi/openstream">Source code</a></p>
