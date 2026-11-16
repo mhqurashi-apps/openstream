@@ -536,7 +536,7 @@ html[data-theme="dark"] .theme-btn__dot { background: var(--ink); box-shadow: 0 
 .peer__name { font-size: 13.5px; font-weight: 500; display: flex; align-items: center; gap: 7px; min-width: 0; }
 .peer__name span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .peer__meta { margin-top: 4px; font-family: var(--mono); font-size: 10.5px; color: var(--muted); }
-.peer__stats { margin-top: 7px; display: flex; gap: 14px; font-family: var(--mono); font-size: 10.5px; color: var(--ink-2); }
+.peer__stats { margin-top: 7px; display: flex; flex-wrap: wrap; gap: 4px 14px; font-family: var(--mono); font-size: 10.5px; color: var(--ink-2); }
 .peer__stats b { font-weight: 400; color: var(--muted); }
 .peer__disconnect { font-size: 11.5px; color: var(--crit); min-height: 28px; }
 .peer__disconnect:hover { text-decoration: underline; text-underline-offset: 3px; }
@@ -566,9 +566,10 @@ html[data-theme="dark"] .theme-btn__dot { background: var(--ink); box-shadow: 0 
 .seg button:hover { background: var(--surface-3); }
 .seg button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); }
 
-.switchrow { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 0; }
-.switchrow__label { font-size: 13px; }
-.switchrow__hint { font-size: 11.5px; color: var(--muted); margin-top: 2px; }
+.switchrow { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 9px 0; }
+.switchrow > span:first-child { min-width: 0; }
+.switchrow__label { display: block; font-size: 13px; }
+.switchrow__hint { display: block; font-size: 11.5px; color: var(--muted); margin-top: 3px; line-height: 1.35; }
 .switch {
   flex: none; width: 40px; height: 23px; border-radius: 999px;
   background: var(--surface-3); border: 1px solid var(--line-2);
@@ -584,6 +585,7 @@ html[data-theme="dark"] .theme-btn__dot { background: var(--ink); box-shadow: 0 
 .switch[aria-checked="true"]::after { transform: translateX(17px); border-color: var(--accent); }
 
 .qrbox { display: flex; gap: 14px; align-items: flex-start; }
+.token { word-break: break-all; line-height: 1.45; }
 .qrbox__img { flex: none; width: 116px; height: 116px; border: 1px solid var(--line); padding: 6px; background: #fff; }
 .qrbox__img svg { width: 100%; height: 100%; display: block; }
 .qrbox__side { min-width: 0; flex: 1 1 auto; }
