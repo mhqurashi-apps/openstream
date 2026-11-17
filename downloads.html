@@ -93,7 +93,7 @@
     phone will run it. The SHA-256 next to each file is the one the build host
     measured.</p>
     <p><strong>Where to get them.</strong> These files are attached to the
-    <code>v0.1.1</code> release on the private source repository. There is no
+    <code>v0.1.3</code> release on the private source repository. There is no
     public binary mirror, so they are not downloadable from this page; this page
     is the published checksum reference. When a file reaches you by any route,
     compare it against the table below and the <code>MANIFEST.txt</code> it came
@@ -172,7 +172,7 @@
   <code>FAILED</code> line means that file is corrupt or not the one this build
   produced &mdash; do not install it. Without the manifest, compare a single
   file against the table above:</p>
-<pre>sha256sum OpenStream-0.1.1-server-amd64.deb</pre>
+<pre>sha256sum OpenStream-0.1.3-server-amd64.deb</pre>
 
   <h2>Install, in plain language</h2>
   <p>Two halves, clearly labelled: <strong>OpenStream Server</strong> is the
@@ -182,7 +182,7 @@
 
   <div class="app">
     <h3>OpenStream Server &mdash; Linux (<code>.deb</code>)</h3>
-    <p><code>sudo apt install ./OpenStream-0.1.1-server-amd64.deb</code></p>
+    <p><code>sudo apt install ./OpenStream-0.1.3-server-amd64.deb</code></p>
     <p><strong>Needs nothing else.</strong> The only declared dependency is
     <code>libc6</code>; the FFmpeg libraries are in
     <code>/usr/lib/openstream-server/lib</code>. Start it deliberately with
@@ -196,8 +196,8 @@
 
   <div class="app">
     <h3>OpenStream Server &mdash; AppImage</h3>
-    <p><code>chmod +x OpenStream-0.1.1-server-x86_64.AppImage &amp;&amp;
-    ./OpenStream-0.1.1-server-x86_64.AppImage --help</code></p>
+    <p><code>chmod +x OpenStream-0.1.3-server-x86_64.AppImage &amp;&amp;
+    ./OpenStream-0.1.3-server-x86_64.AppImage --help</code></p>
     <p><strong>Needs nothing installed</strong> and no FUSE: on a machine without
     FUSE, prefix the command with <code>APPIMAGE_EXTRACT_AND_RUN=1</code>. Run it
     with no arguments and the session server listens on <code>0.0.0.0:40076</code>
@@ -207,7 +207,7 @@
 
   <div class="app">
     <h3>OpenStream Server &mdash; Flatpak</h3>
-    <p><code>flatpak install --user ./OpenStream-0.1.1-server-x86_64.flatpak</code><br>
+    <p><code>flatpak install --user ./OpenStream-0.1.3-server-x86_64.flatpak</code><br>
     <code>flatpak run dev.openstream.OpenStreamServer --help</code></p>
     <p><strong>No OpenStream package and no FFmpeg needed.</strong> Flatpak
     fetches the shared freedesktop runtime the bundle is built against; that is
@@ -219,7 +219,7 @@
 
   <div class="app">
     <h3>OpenStream Server &mdash; tarball (no package manager)</h3>
-    <p><code>tar -xJf OpenStream-0.1.1-server-linux-x86_64.tar.xz</code><br>
+    <p><code>tar -xJf OpenStream-0.1.3-server-linux-x86_64.tar.xz</code><br>
     <code>./openstream-server/openstream-server --help</code></p>
     <p><strong>Needs nothing installed.</strong> Keep the <code>lib/</code>
     directory next to the binary.</p>
@@ -227,7 +227,7 @@
 
   <div class="app">
     <h3>OpenStream Client &mdash; Linux (<code>.deb</code>)</h3>
-    <p><code>sudo apt install ./OpenStream-0.1.1-client-amd64.deb</code></p>
+    <p><code>sudo apt install ./OpenStream-0.1.3-client-amd64.deb</code></p>
     <p>This is the <em>one</em> artifact that still needs apt to install two
     desktop libraries &mdash; <code>libgtk-3-0t64</code> and
     <code>libsecret-1-0</code> &mdash; and <code>apt install ./file.deb</code>
@@ -237,9 +237,9 @@
 
   <div class="app">
     <h3>OpenStream Client &mdash; AppImage and Flatpak</h3>
-    <p><code>chmod +x OpenStream-0.1.1-client-x86_64.AppImage &amp;&amp;
-    ./OpenStream-0.1.1-client-x86_64.AppImage</code><br>
-    <code>flatpak install --user ./OpenStream-0.1.1-client-x86_64.flatpak</code></p>
+    <p><code>chmod +x OpenStream-0.1.3-client-x86_64.AppImage &amp;&amp;
+    ./OpenStream-0.1.3-client-x86_64.AppImage</code><br>
+    <code>flatpak install --user ./OpenStream-0.1.3-client-x86_64.flatpak</code></p>
     <p><strong>Needs nothing else:</strong> the AppImage carries GTK 3, and the
     Flatpak bundle gets GTK from the freedesktop runtime Flatpak installs for
     you. Both need a graphical desktop session.</p>
@@ -248,7 +248,7 @@
   <div class="app">
     <h3>Android client (<code>.apk</code>)</h3>
     <p>Copy the APK to the phone and tap it, or
-    <code>adb install OpenStream-0.1.1-android.apk</code>. Android will ask you
+    <code>adb install OpenStream-0.1.3-android.apk</code>. Android will ask you
     to allow installing from an unknown source: the build is debug-signed, not
     Play-signed. Nothing else to install.</p>
   </div>
