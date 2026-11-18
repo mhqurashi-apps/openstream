@@ -1,0 +1,15 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["REPLACE_WITH_APPLE_TEAM_ID.dev.openstream.openstreamMobile"],
+        "components": [
+          {
+            "/": "/openstream/pair*",
+            "comment": "The pairing link. The host public key in the link is the proof, not the domain."
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,10 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "dev.openstream.client",
+      "sha256_cert_fingerprints": ["35:9E:FF:87:3A:F9:C3:AA:D2:25:8A:DF:41:4B:19:2A:63:55:DB:15:67:92:0D:A9:28:67:25:FA:58:A3:4E:2D"]
+    }
+  }
+]
